@@ -9,7 +9,9 @@ import net.bddtrader.news.NewsItem;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StaticAPI implements TradingDataAPI {
 
@@ -29,6 +31,18 @@ public class StaticAPI implements TradingDataAPI {
             e.printStackTrace();
             return new ArrayList<>();
         }
+    }
+
+    Map<String, Double> stockPrices = new HashMap<>();
+
+    @Override
+    public Double getPriceFor(String stockid) {
+        return stockPrices.getOrDefault(stockid, 100.00);
+    }
+
+    @Override
+    public void updatePriceFor(String stockid, Double currentPrice) {
+        stockPrices.put(stockid, currentPrice);
     }
 
     private File testDataFrom(String source) {
