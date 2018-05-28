@@ -1,0 +1,7 @@
+= BDD Trader application
+
+The BDD Trader application demonstrates BDD and test automation techniques using Serenity BDD. The application allows users to create portfolios of shares using real market data.
+
+The application is made of several components
+* A set of REST API endpoints
+* An AngularJS frontend
