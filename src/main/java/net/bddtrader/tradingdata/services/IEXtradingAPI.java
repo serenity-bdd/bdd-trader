@@ -23,4 +23,22 @@ public class IEXtradingAPI implements TradingDataAPI {
                         stockid);
         return response.getBody();
     }
+
+    @Override
+    public Double getPriceFor(String stockid) {
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<Double> response =
+                restTemplate.exchange("https://api.iextrading.com/1.0/stock/{stockid}/price",
+                        GET, null,
+                        new ParameterizedTypeReference<Double>() {},
+                        stockid);
+        return response.getBody();
+    }
+
+    @Override
+    public void updatePriceFor(String stockid, Double currentPrice) {
+        throw new IllegalStateException("Attempt to update prices in production");
+    }
 }
