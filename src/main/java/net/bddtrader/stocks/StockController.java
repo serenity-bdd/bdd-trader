@@ -28,8 +28,8 @@ public class StockController {
     }
 
     @RequestMapping(value = "/stock/{stockid}/price", method = RequestMethod.POST)
-    public Double updatePriceFor(@PathVariable String stockid, @RequestBody Double currentPrice) {
-        return TradingData.instanceFor(tradingDataSource).updatePriceFor(stockid, currentPrice);
+    public void updatePriceFor(@PathVariable String stockid, @RequestBody Double currentPrice) {
+        TradingData.instanceFor(tradingDataSource).updatePriceFor(stockid, currentPrice);
     }
 
 }

@@ -5,3 +5,8 @@ The BDD Trader application demonstrates BDD and test automation techniques using
 The application is made of several components
 * A set of REST API endpoints
 * An AngularJS frontend
+
+
+You can start the application from the command line by running `mvn springboot:run`
+
+To run the application using live market data, run `mvn spring-boot:run -Ddata.source=IEX`.
