@@ -31,5 +31,4 @@ public class StockController {
     public void updatePriceFor(@PathVariable String stockid, @RequestBody Double currentPrice) {
         TradingData.instanceFor(tradingDataSource).updatePriceFor(stockid, currentPrice);
     }
-
 }
