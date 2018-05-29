@@ -6,7 +6,29 @@ The application is made of several components
 * A set of REST API endpoints
 * An AngularJS frontend
 
+== Building the project
 
-You can start the application from the command line by running `mvn springboot:run`
+This project uses a Maven build. To build an executable jar, run `mvn package`.
+This will produce a jar in the `target` directory.
 
-To run the application using live market data, run `mvn spring-boot:run -Ddata.source=IEX`.
+=== Running the application
+
+You can run the packaged application like this:
+----
+java -jar target/bddtrader-1.0.0-SNAPSHOT.jar -Ddata.source==IEX
+----
+
+If you want to run the application using live data, you can run the following command:
+
+----
+java -Ddata.source==IEX -jar target/bddtrader-1.0.0-SNAPSHOT.jar
+----
+
+You can also start the application from the command line by running `mvn springboot:run`, or,
+to run the application using live market data, you can run `mvn spring-boot:run -Ddata.source=IEX`.
+
+
+=== Running the tests
+
+You can run the full test suite by running `mvn verify`.
+

@@ -1,4 +1,4 @@
-package net.bddtrader.news;
+package net.bddtrader.stocks;
 
 import net.bddtrader.stocks.StockController;
 import org.junit.Before;
