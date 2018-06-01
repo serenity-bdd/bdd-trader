@@ -1,5 +1,7 @@
-package net.bddtrader.news;
+package net.bddtrader.apitests.news;
 
+import net.bddtrader.news.NewsController;
+import net.bddtrader.news.NewsItem;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.client.HttpClientErrorException;

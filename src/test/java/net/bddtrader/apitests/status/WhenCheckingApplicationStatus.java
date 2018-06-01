@@ -1,8 +1,9 @@
-package net.bddtrader.status;
+package net.bddtrader.apitests.status;
 
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import net.bddtrader.config.TradingDataSource;
+import net.bddtrader.status.StatusController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

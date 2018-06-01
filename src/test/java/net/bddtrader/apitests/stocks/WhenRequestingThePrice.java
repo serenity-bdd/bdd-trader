@@ -1,11 +1,10 @@
-package net.bddtrader.stocks;
+package net.bddtrader.apitests.stocks;
 
 import net.bddtrader.stocks.StockController;
+import net.bddtrader.tradingdata.exceptions.IllegalPriceManiuplationException;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.client.HttpClientErrorException;
-
-import java.util.List;
 
 import static net.bddtrader.config.TradingDataSource.DEV;
 import static net.bddtrader.config.TradingDataSource.IEX;
@@ -37,6 +36,27 @@ public class WhenRequestingThePrice {
     @Test(expected = HttpClientErrorException.class)
     public void shouldReportResourceNotFoundForUnknownStocks() {
         controller.priceFor("UNKNOWN-STOCK");
+    }
+
+
+    @Test
+    public void shouldAllowPricesToBeUpdatedProgrammaticallyInDev() {
+
+        controller = new StockController(DEV);
+
+        controller.updatePriceFor("IBM", 200.00);
+
+        assertThat(controller.priceFor("IBM")).isEqualTo(200.00);
+    }
+
+    @Test(expected = IllegalPriceManiuplationException.class)
+    public void shouldNotAllowPricesToBeUpdatedProgrammaticallyInDev() {
+
+        controller = new StockController(IEX);
+
+        controller.updatePriceFor("IBM", 200.00);
+
+        assertThat(controller.priceFor("IBM")).isEqualTo(200.00);
     }
 
 }

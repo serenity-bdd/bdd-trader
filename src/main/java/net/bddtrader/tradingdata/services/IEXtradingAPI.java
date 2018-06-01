@@ -1,7 +1,8 @@
 package net.bddtrader.tradingdata.services;
 
-import net.bddtrader.tradingdata.TradingDataAPI;
 import net.bddtrader.news.NewsItem;
+import net.bddtrader.tradingdata.TradingDataAPI;
+import net.bddtrader.tradingdata.exceptions.IllegalPriceManiuplationException;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -39,6 +40,6 @@ public class IEXtradingAPI implements TradingDataAPI {
 
     @Override
     public void updatePriceFor(String stockid, Double currentPrice) {
-        throw new IllegalStateException("Attempt to update prices in production");
+        throw new IllegalPriceManiuplationException("Attempt to update prices in production");
     }
 }

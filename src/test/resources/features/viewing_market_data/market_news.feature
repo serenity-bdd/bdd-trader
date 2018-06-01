@@ -8,5 +8,4 @@ Feature: Market news
   Scenario: Viewing news about a particular share
     Given Tim is interested in Apple
     When Tim views the news about AAPL
-
     Then Tim should only see articles related to AAPL

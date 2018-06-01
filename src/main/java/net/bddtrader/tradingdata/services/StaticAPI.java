@@ -3,8 +3,8 @@ package net.bddtrader.tradingdata.services;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import net.bddtrader.tradingdata.TradingDataAPI;
 import net.bddtrader.news.NewsItem;
+import net.bddtrader.tradingdata.TradingDataAPI;
 
 import java.io.File;
 import java.io.IOException;
