@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -13,7 +14,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @Component
 public class ClientDirectory {
 
-    private final List<Client> registeredClients = new ArrayList<>();
+    private final List<Client> registeredClients = new CopyOnWriteArrayList<>();
     private final AtomicLong clientCount = new AtomicLong(1);
 
     public Client registerClient(Client newClient) {

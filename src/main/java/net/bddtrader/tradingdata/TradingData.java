@@ -1,6 +1,5 @@
 package net.bddtrader.tradingdata;
 
-import com.typesafe.config.ConfigFactory;
 import net.bddtrader.config.TradingDataSource;
 import net.bddtrader.tradingdata.services.IEXtradingAPI;
 import net.bddtrader.tradingdata.services.StaticAPI;

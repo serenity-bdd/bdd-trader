@@ -24,7 +24,7 @@ public class WhenRequestingThePrice {
 
         controller = new StockController(DEV);
 
-        assertThat(controller.priceFor("AAPL")).isEqualTo(100.00);
+        assertThat(controller.priceFor("AAPL")).isEqualTo(190.24);
     }
 
     @Test

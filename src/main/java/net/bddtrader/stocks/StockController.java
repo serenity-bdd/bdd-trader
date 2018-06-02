@@ -1,10 +1,15 @@
 package net.bddtrader.stocks;
 
+import io.swagger.annotations.ApiOperation;
 import net.bddtrader.config.TraderConfiguration;
 import net.bddtrader.config.TradingDataSource;
 import net.bddtrader.tradingdata.TradingData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
 public class StockController {
@@ -14,18 +19,27 @@ public class StockController {
     public StockController(TradingDataSource tradingDataSource) {
         this.tradingDataSource = tradingDataSource;
     }
+
     @Autowired
     public StockController(TraderConfiguration traderConfiguration) {
         this(traderConfiguration.getTradingDataSource());
     }
 
-    @RequestMapping("/stock/{stockid}/price")
+    @RequestMapping(value="/api/stock/{stockid}/price", method = GET)
+    @ApiOperation("Find the price of a given stock")
     public Double priceFor(@PathVariable String stockid) {
         return TradingData.instanceFor(tradingDataSource).getPriceFor(stockid);
     }
 
     @RequestMapping(value = "/stock/{stockid}/price", method = RequestMethod.POST)
+    @ApiOperation("Update the price of a given stock in a test environment")
     public void updatePriceFor(@PathVariable String stockid, @RequestBody Double currentPrice) {
         TradingData.instanceFor(tradingDataSource).updatePriceFor(stockid, currentPrice);
+    }
+
+    @RequestMapping(value = "/stock/popular", method = RequestMethod.GET)
+    @ApiOperation("List high volume stocks")
+    public List<String> getPopularStocks() {
+        return TradingData.instanceFor(tradingDataSource).getPopularStocks();
     }
 }
