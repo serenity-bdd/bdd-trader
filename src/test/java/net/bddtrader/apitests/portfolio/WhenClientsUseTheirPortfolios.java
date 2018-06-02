@@ -43,7 +43,7 @@ public class WhenClientsUseTheirPortfolios {
         portfolioController.placeOrder(portfolio.getPortfolioId(),
                                        buy(10L).sharesOf("AAPL").at(500L).centsEach());
 
-        Position applPosition = portfolioController.getPosition(portfolio.getPortfolioId()).getBody().get("AAPL");
+        Position applPosition = portfolioController.getPositions(portfolio.getPortfolioId()).getBody().get("AAPL");
 
         assertThat(applPosition.getAmount()).isEqualTo(10L);
     }
@@ -61,7 +61,7 @@ public class WhenClientsUseTheirPortfolios {
         portfolioController.placeOrder(portfolio.getPortfolioId(),
                 buy(20L).sharesOf("IBM").at(500L).centsEach());
 
-        Map<String, Position> positions = portfolioController.getPosition(portfolio.getPortfolioId()).getBody();
+        Map<String, Position> positions = portfolioController.getPositions(portfolio.getPortfolioId()).getBody();
         Position applPosition = positions.get("AAPL");
         Position ibmPosition = positions.get("IBM");
         Position cashPosition = positions.get("CASH");
@@ -81,7 +81,7 @@ public class WhenClientsUseTheirPortfolios {
         portfolioController.placeOrder(portfolio.getPortfolioId(),
                 buy(10L).sharesOf("AAPL").at(10000L).centsEach());
 
-        Map<String, Position> positions = portfolioController.getPosition(portfolio.getPortfolioId()).getBody();
+        Map<String, Position> positions = portfolioController.getPositions(portfolio.getPortfolioId()).getBody();
         Position applPosition = positions.get("AAPL");
 
         assertThat(applPosition.getProfit()).isEqualTo(902.40);
@@ -97,7 +97,7 @@ public class WhenClientsUseTheirPortfolios {
         portfolioController.placeOrder(portfolio.getPortfolioId(),
                 buy(1L).sharesOf("AAPL").at(20000L).centsEach());
 
-        Map<String, Position> positions = portfolioController.getPosition(portfolio.getPortfolioId()).getBody();
+        Map<String, Position> positions = portfolioController.getPositions(portfolio.getPortfolioId()).getBody();
         Position applPosition = positions.get("AAPL");
 
         assertThat(applPosition.getProfit()).isEqualTo(-9.76);
