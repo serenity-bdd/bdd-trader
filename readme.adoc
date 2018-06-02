@@ -39,9 +39,4 @@ at market rates, and the service keeps track of the transactions and of the clie
 
 Clients need to register with the service by providing their name and an email address.
 
-== Using the REST API endpoints
-
-The following
-
-=== Registering a new user
 
