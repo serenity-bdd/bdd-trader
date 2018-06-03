@@ -51,7 +51,7 @@ public class PortfolioController {
         Optional<Portfolio> portfolio = portfolioDirectory.findByClientId(clientId);
 
         return portfolio.map(
-                portfolioFound   -> new ResponseEntity<>(portfolioFound, OK))
+                portfolioFound   -> new ResponseEntity<>(portfolioFound.withMarketPricesFrom(tradingDataAPI), OK))
                 .orElseGet(() -> new ResponseEntity<>(NOT_FOUND));
     }
 
@@ -63,7 +63,7 @@ public class PortfolioController {
         Optional<Portfolio> portfolio = portfolioDirectory.findById(portfolioId);
 
         return portfolio.map(
-                portfolioFound -> new ResponseEntity<>(portfolioFound, OK))
+                portfolioFound -> new ResponseEntity<>(portfolioFound.withMarketPricesFrom(tradingDataAPI), OK))
                 .orElseGet(() -> new ResponseEntity<>(NOT_FOUND));
     }
 

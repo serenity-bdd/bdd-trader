@@ -63,7 +63,7 @@ public class WhenClientsUseTheirPortfolios {
 
         Position applPosition = portfolioController.getPositions(portfolio.getPortfolioId()).getBody().get("AAPL");
 
-        assertThat(applPosition.getTotalPurchasePriceInCents()).isEqualTo(5000L);
+        assertThat(applPosition.getTotalPurchasePriceInDollars()).isEqualTo(50.00);
     }
 
     @Test

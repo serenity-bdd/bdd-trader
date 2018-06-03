@@ -33,18 +33,17 @@ public class TradeBuilder implements SharesOf, AtAPriceOf, CentsEach, InCurrency
         return new Trade(securityCode, tradeType, numberOfShares, 0L);
     }
 
-    @Override
     public Trade centsEach() {
         return new Trade(securityCode, tradeType, numberOfShares, priceInCents);
     }
 
     @Override
     public Trade dollars() {
-        return new CashTrade(tradeType, numberOfShares * 100);
+        return new Trade(Trade.CASH_ACCOUNT, tradeType, numberOfShares * 100, 1L);
     }
 
     @Override
     public Trade cents() {
-        return new CashTrade(tradeType, numberOfShares);
+        return new Trade(Trade.CASH_ACCOUNT, tradeType, numberOfShares, 1L);
     }
 }

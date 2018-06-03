@@ -1,6 +1,7 @@
 package net.bddtrader.tradingdata.services;
 
 import net.bddtrader.news.NewsItem;
+import net.bddtrader.portfolios.Trade;
 import net.bddtrader.stocks.TopStock;
 import net.bddtrader.tradingdata.TradingDataAPI;
 import net.bddtrader.tradingdata.exceptions.IllegalPriceManiuplationException;
@@ -30,6 +31,10 @@ public class IEXtradingAPI implements TradingDataAPI {
 
     @Override
     public Double getPriceFor(String stockid) {
+
+        if (stockid.equals(Trade.CASH_ACCOUNT)) {
+            return 0.01;
+        }
 
         RestTemplate restTemplate = new RestTemplate();
 

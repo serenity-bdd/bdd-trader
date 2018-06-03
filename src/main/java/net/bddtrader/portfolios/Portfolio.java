@@ -1,6 +1,7 @@
 package net.bddtrader.portfolios;
 
 import net.bddtrader.tradingdata.PriceReader;
+import net.bddtrader.tradingdata.TradingDataAPI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +20,19 @@ public class Portfolio {
 
     private final Long portfolioId;
     private final Long clientId;
-    private final List<Trade> history = new CopyOnWriteArrayList<>();
+    private final List<Trade> history;
 
     public Portfolio(Long portfolioId, Long clientId) {
         this.portfolioId = portfolioId;
         this.clientId = clientId;
+        this.history = new CopyOnWriteArrayList<>();
         placeOrder(deposit(INITIAL_DEPOSIT_IN_DOLLARS).dollars());
+    }
+
+    protected Portfolio(Long portfolioId, Long clientId, List<Trade> history) {
+        this.portfolioId = portfolioId;
+        this.clientId = clientId;
+        this.history = new CopyOnWriteArrayList<>(history);
     }
 
     public Long getPortfolioId() {
@@ -56,6 +64,10 @@ public class Portfolio {
         return new OrderPlacement(priceReader);
     }
 
+    public Portfolio withMarketPricesFrom(PriceReader priceReader) {
+        return new PortfolioWithPositions(portfolioId, clientId, history, priceReader);
+    }
+
     public class OrderPlacement {
         private PriceReader priceReader;
 
@@ -78,15 +90,13 @@ public class Portfolio {
 
     private void ensureSufficientFundsAreAvailableFor(Trade trade) {
 
-        if (trade.getType() != TradeType.Buy) { return; }
-
         if (!hasSufficientFundsFor(trade)){
             throw new InsufficientFundsException("Insufficient funds: " + getCash() + " for purchase of " + trade.getTotalInCents() / 100);
         }
     }
 
     public boolean hasSufficientFundsFor(Trade trade) {
-        return (trade.getType().direction() == TradeDirection.Increase) || ((getCashInCents() >= trade.getTotalInCents()));
+        return (trade.getType() == TradeType.Deposit) || (trade.getType() == TradeType.Sell) || ((getCashInCents() >= trade.getTotalInCents()));
 
     }
 
@@ -105,10 +115,7 @@ public class Portfolio {
 
         positions.updateMarketPricesUsing(priceReader);
 
-        return positions.getPositions().values().stream()
-                .filter(position -> (!position.getSecurityCode().equals(Trade.CASH_ACCOUNT)))
-                .mapToDouble(Position::getProfit)
-                .sum();
+        return calculateProfitOn(positions);
     }
 
     private Optional<Position> getCashPosition() {
@@ -120,12 +127,19 @@ public class Portfolio {
     }
 
 
-    public Positions getPositions() {
+    private Positions getPositions() {
         Positions positions = new Positions();
 
         for (Trade trade : history) {
             positions.apply(trade);
         }
         return positions;
+    }
+
+    private Double calculateProfitOn(Positions positions) {
+        return positions.getPositions().values().stream()
+                .filter(position -> (!position.getSecurityCode().equals(Trade.CASH_ACCOUNT)))
+                .mapToDouble(Position::getProfit)
+                .sum();
     }
 }

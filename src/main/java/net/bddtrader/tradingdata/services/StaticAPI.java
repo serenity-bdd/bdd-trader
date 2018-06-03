@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.common.collect.Lists;
 import net.bddtrader.news.NewsItem;
+import net.bddtrader.portfolios.Trade;
 import net.bddtrader.tradingdata.TradingDataAPI;
 
 import java.io.File;
@@ -53,6 +54,9 @@ public class StaticAPI implements TradingDataAPI {
 
     @Override
     public Double getPriceFor(String stockid) {
+        if (stockid.equals(Trade.CASH_ACCOUNT)) {
+            return 0.01;
+        }
         return stockPrices.getOrDefault(stockid, 100.00);
     }
 

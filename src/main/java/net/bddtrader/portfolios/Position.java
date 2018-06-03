@@ -1,7 +1,7 @@
 package net.bddtrader.portfolios;
 
 public class Position {
-    public static final Position EMPTY_CASH_POSITION = new Position("CASH",0L,0L,0L);
+    public static final Position EMPTY_CASH_POSITION = new Position("CASH", 0L, 0L, 0L);
     private final String securityCode;
     private final Long amount;
     private final Long totalPurchasePriceInCents;
@@ -23,23 +23,15 @@ public class Position {
         return amount;
     }
 
-    public Long getMarketValueInCents() {
-        return marketValueInCents;
-    }
-
     public double getMarketValueInDollars() {
-        return marketValueInCents / 100;
+        return ((double) marketValueInCents) / 100;
     }
 
-    public Long getTotalPurchasePriceInCents() {
-        return totalPurchasePriceInCents;
-
-    }
     public double getTotalPurchasePriceInDollars() {
         return ((double) totalPurchasePriceInCents) / 100;
     }
 
-    public Long getTotalValueInCents() {
+    protected Long getTotalValueInCents() {
         return amount * marketValueInCents;
     }
 
@@ -65,6 +57,10 @@ public class Position {
     }
 
     public Double getProfit() {
-        return ((double) (getTotalValueInCents() - getTotalPurchasePriceInCents())) / 100;
+        if (getSecurityCode().equals(Trade.CASH_ACCOUNT)) {
+            return 0.0;
+        }
+
+        return ((double) (getTotalValueInCents() - totalPurchasePriceInCents)) / 100;
     }
 }

@@ -4,8 +4,7 @@ import net.bddtrader.portfolios.Position;
 import net.bddtrader.portfolios.Trade;
 import org.junit.Test;
 
-import static net.bddtrader.portfolios.Trade.buy;
-import static net.bddtrader.portfolios.Trade.sell;
+import static net.bddtrader.portfolios.Trade.*;
 import static net.bddtrader.portfolios.TradeType.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,7 +32,7 @@ public class WhenWorkingWithPositions {
         Position newPosition = position.apply(buy(10L).sharesOf("AAPL").at(500L).centsEach());
 
         assertThat(newPosition.getSecurityCode()).isEqualTo("AAPL");
-        assertThat(newPosition.getTotalPurchasePriceInCents()).isEqualTo(10000L);
+        assertThat(newPosition.getTotalPurchasePriceInDollars()).isEqualTo(100.00);
         assertThat(newPosition.getTotalValueInDollars()).isEqualTo(100.00);
         assertThat(newPosition.getMarketValueInDollars()).isEqualTo(5.00);
     }
@@ -49,7 +48,7 @@ public class WhenWorkingWithPositions {
 
         assertThat(newPosition.getSecurityCode()).isEqualTo("AAPL");
         assertThat(newPosition.getAmount()).isEqualTo(18);
-        assertThat(newPosition.getTotalPurchasePriceInCents()).isEqualTo(9000L);
+        assertThat(newPosition.getTotalPurchasePriceInDollars()).isEqualTo(90.00);
         assertThat(newPosition.getTotalValueInDollars()).isEqualTo(90.00);
         assertThat(newPosition.getMarketValueInDollars()).isEqualTo(5.00);
     }
@@ -65,9 +64,24 @@ public class WhenWorkingWithPositions {
 
         assertThat(newPosition.getSecurityCode()).isEqualTo("AAPL");
         assertThat(newPosition.getAmount()).isEqualTo(38);
-        assertThat(newPosition.getTotalPurchasePriceInCents()).isEqualTo(19000L);
+        assertThat(newPosition.getTotalPurchasePriceInDollars()).isEqualTo(190.00);
         assertThat(newPosition.getTotalValueInDollars()).isEqualTo(190.00);
         assertThat(newPosition.getMarketValueInDollars()).isEqualTo(5.00);
     }
+
+    @Test
+    public void depositing100DollarsInCash() {
+
+        Trade trade = deposit(100L).dollars();
+        Position position = Position.fromTrade(trade);
+
+        assertThat(position.getSecurityCode()).isEqualTo("CASH");
+        assertThat(position.getMarketValueInDollars()).isEqualTo(0.01);
+        assertThat(position.getAmount()).isEqualTo(100L);
+        assertThat(position.getTotalPurchasePriceInDollars()).isEqualTo(100.00);
+        assertThat(position.getTotalValueInDollars()).isEqualTo(100.00);
+
+    }
+
 }
 
