@@ -5,10 +5,10 @@ import net.bddtrader.tradingdata.PriceReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static net.bddtrader.portfolios.Trade.deposit;
-import static net.bddtrader.portfolios.TradeType.Buy;
 
 /**
  * A Portfolio records the financial position of a client, as well as the history of their trades.
@@ -36,19 +36,44 @@ public class Portfolio {
     }
 
     public double getCash() {
-        return getCashPosition().getTotalValueInDollars();
+        return getCashPosition().orElse(Position.EMPTY_CASH_POSITION).getTotalValueInDollars();
     }
 
-    public Long getCashInCents() {
-        return getCashPosition().getTotalValueInCents();
+    private Long getCashInCents() {
+        return getCashPosition().orElse(Position.EMPTY_CASH_POSITION).getTotalValueInCents();
     }
 
     public void placeOrder(Trade trade) {
+
         ensureSufficientFundsAreAvailableFor(trade);
 
         trade.cashTransation().ifPresent( history::add );
 
         history.add(trade);
+    }
+
+    public OrderPlacement placeOrderUsingPricesFrom(PriceReader priceReader) {
+        return new OrderPlacement(priceReader);
+    }
+
+    public class OrderPlacement {
+        private PriceReader priceReader;
+
+        OrderPlacement(PriceReader priceReader) {
+            this.priceReader = priceReader;
+        }
+
+        public void forTrade(Trade trade) {
+            if (shouldFindMarketPriceFor(trade)) {
+                trade = trade.atPrice(priceReader.getPriceFor(trade.getSecurityCode()));
+            }
+
+            placeOrder(trade);
+        }
+    }
+
+    private boolean shouldFindMarketPriceFor(Trade trade) {
+        return trade.getPriceInCents() == 0;
     }
 
     private void ensureSufficientFundsAreAvailableFor(Trade trade) {
@@ -61,14 +86,13 @@ public class Portfolio {
     }
 
     public boolean hasSufficientFundsFor(Trade trade) {
-        if (trade.getType() == TradeType.Deposit) { return true; }
+        return (trade.getType().direction() == TradeDirection.Increase) || ((getCashInCents() >= trade.getTotalInCents()));
 
-        return ((trade.getType() == Buy) && (getCashInCents() >= trade.getTotalInCents()));
     }
 
     public Map<String, Position> calculatePositionsUsing(PriceReader priceReader) {
 
-        Positions positions = getCumulatedPositions();
+        Positions positions = getPositions();
 
         positions.updateMarketPricesUsing(priceReader);
 
@@ -77,7 +101,7 @@ public class Portfolio {
 
     public Double calculateProfitUsing(PriceReader priceReader) {
 
-        Positions positions = getCumulatedPositions();
+        Positions positions = getPositions();
 
         positions.updateMarketPricesUsing(priceReader);
 
@@ -87,8 +111,8 @@ public class Portfolio {
                 .sum();
     }
 
-    public Position getCashPosition() {
-        return getCumulatedPositions().getPositions().get(Trade.CASH_ACCOUNT);
+    private Optional<Position> getCashPosition() {
+        return Optional.ofNullable(getPositions().getPositions().get(Trade.CASH_ACCOUNT));
     }
 
     public List<Trade> getHistory() {
@@ -96,7 +120,7 @@ public class Portfolio {
     }
 
 
-    private Positions getCumulatedPositions() {
+    public Positions getPositions() {
         Positions positions = new Positions();
 
         for (Trade trade : history) {

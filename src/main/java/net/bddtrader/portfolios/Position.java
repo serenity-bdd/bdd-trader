@@ -1,6 +1,7 @@
 package net.bddtrader.portfolios;
 
 public class Position {
+    public static final Position EMPTY_CASH_POSITION = new Position("CASH",0L,0L,0L);
     private final String securityCode;
     private final Long amount;
     private final Long totalPurchasePriceInCents;
@@ -35,7 +36,7 @@ public class Position {
 
     }
     public double getTotalPurchasePriceInDollars() {
-        return totalPurchasePriceInCents / 100;
+        return ((double) totalPurchasePriceInCents) / 100;
     }
 
     public Long getTotalValueInCents() {
@@ -44,7 +45,7 @@ public class Position {
 
 
     public double getTotalValueInDollars() {
-        return getTotalValueInCents() / 100;
+        return ((double) getTotalValueInCents()) / 100;
     }
 
     public static Position fromTrade(Trade trade) {

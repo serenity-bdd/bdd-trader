@@ -6,6 +6,8 @@ import net.bddtrader.clients.ClientDirectory;
 import net.bddtrader.config.TraderConfiguration;
 import net.bddtrader.config.TradingDataSource;
 import net.bddtrader.portfolios.*;
+import net.bddtrader.tradingdata.TradingData;
+import net.bddtrader.tradingdata.TradingDataAPI;
 import org.junit.Test;
 
 import java.util.List;
@@ -26,7 +28,7 @@ public class WhenClientsUseTheirPortfolios {
     @Test
     public void whenAClientRegistersTheyAreGivenAPortfolio() {
 
-        Client joe = clientController.register(new Client("Joe","Smith"));
+        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
 
         Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
 
@@ -36,7 +38,7 @@ public class WhenClientsUseTheirPortfolios {
     @Test
     public void clientsCanPurchaseSharesWithTheirPortfolio() {
 
-        Client joe = clientController.register(new Client("Joe","Smith"));
+        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
 
         Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
 
@@ -49,9 +51,25 @@ public class WhenClientsUseTheirPortfolios {
     }
 
     @Test
+    public void clientsCanPurchaseSharesWithTheirPortfolioAtMarketPrices() {
+
+        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
+        Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
+
+        TradingData.instanceFor(TradingDataSource.DEV).updatePriceFor("AAPL", 50.00);
+
+        portfolioController.placeOrder(portfolio.getPortfolioId(),
+                buy(1L).sharesOf("AAPL").atMarketPrice());
+
+        Position applPosition = portfolioController.getPositions(portfolio.getPortfolioId()).getBody().get("AAPL");
+
+        assertThat(applPosition.getTotalPurchasePriceInCents()).isEqualTo(5000L);
+    }
+
+    @Test
     public void clientsCanViewTheirPositions() {
 
-        Client joe = clientController.register(new Client("Joe","Smith"));
+        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
 
         Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
 
@@ -74,7 +92,7 @@ public class WhenClientsUseTheirPortfolios {
     @Test
     public void clientsCanViewTheirProfitsForEachPosition() {
 
-        Client joe = clientController.register(new Client("Joe","Smith"));
+        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
 
         Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
 
@@ -90,7 +108,7 @@ public class WhenClientsUseTheirPortfolios {
     @Test
     public void clientsCanViewTheirLossesForEachPosition() {
 
-        Client joe = clientController.register(new Client("Joe","Smith"));
+        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
 
         Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
 
@@ -106,7 +124,7 @@ public class WhenClientsUseTheirPortfolios {
     @Test
     public void clientsCanViewTheirOverallProfitsAndLosses() {
 
-        Client joe = clientController.register(new Client("Joe","Smith"));
+        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
 
         Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
 
@@ -126,7 +144,7 @@ public class WhenClientsUseTheirPortfolios {
     @Test
     public void clientsCanViewTheirTradeHistory() {
 
-        Client joe = clientController.register(new Client("Joe","Smith"));
+        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
 
         Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
 

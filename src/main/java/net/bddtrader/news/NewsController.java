@@ -1,5 +1,6 @@
 package net.bddtrader.news;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import net.bddtrader.config.TraderConfiguration;
 import net.bddtrader.config.TradingDataSource;
@@ -15,6 +16,7 @@ import java.util.List;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
+@Api("news")
 public class NewsController {
 
     private final TradingDataSource tradingDataSource;

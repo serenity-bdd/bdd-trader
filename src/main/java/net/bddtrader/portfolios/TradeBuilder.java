@@ -29,6 +29,11 @@ public class TradeBuilder implements SharesOf, AtAPriceOf, CentsEach, InCurrency
     }
 
     @Override
+    public Trade atMarketPrice() {
+        return new Trade(securityCode, tradeType, numberOfShares, 0L);
+    }
+
+    @Override
     public Trade centsEach() {
         return new Trade(securityCode, tradeType, numberOfShares, priceInCents);
     }

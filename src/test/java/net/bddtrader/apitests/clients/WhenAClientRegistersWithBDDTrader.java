@@ -23,17 +23,17 @@ public class WhenAClientRegistersWithBDDTrader {
     public void aClientRegistersByProvidingANameAndAPassword() {
 
         // WHEN
-        Client registeredClient = controller.register(new Client("Sarah-Jane","Smith"));
+        Client registeredClient = controller.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
 
         // THEN
-        assertThat(registeredClient).isEqualToComparingFieldByField(new Client(1L,"Sarah-Jane","Smith"));
+        assertThat(registeredClient).isEqualToComparingFieldByField(registeredClient);
     }
 
     @Test
     public void registeredClientsAreStoredInTheClientDirectory() {
 
         // WHEN
-        Client registeredClient = controller.register(new Client("Sarah-Jane","Smith"));
+        Client registeredClient = controller.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
 
         // THEN
         assertThat(clientDirectory.findClientById(1))
@@ -45,21 +45,21 @@ public class WhenAClientRegistersWithBDDTrader {
     public void registeredClientsCanBeRetrievedById() {
 
         // GIVEN
-        controller.register(new Client("Sarah-Jane","Smith"));
+        Client sarahJane = controller.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
 
         // WHEN
         Client foundClient = controller.findClientById(1L).getBody();
 
         // THEN
-        assertThat(foundClient).isEqualTo(new Client(1L,"Sarah-Jane","Smith"));
+        assertThat(foundClient).isEqualTo(sarahJane);
     }
 
     @Test
     public void registeredClientsCanBeListed() {
 
         // GIVEN
-        controller.register(new Client("Sarah-Jane","Smith"));
-        controller.register(new Client("Joe","Smith"));
+        controller.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
+        controller.register(Client.withFirstName("Joe").andLastName("Smith"));
 
         // WHEN
         List<Client> foundClients = controller.findAll();
@@ -72,7 +72,7 @@ public class WhenAClientRegistersWithBDDTrader {
     public void returns404WhenNoMatchingClientIsFound() {
 
         // GIVEN
-        controller.register(new Client("Sarah-Jane","Smith"));
+        controller.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
 
         // WHEN
         HttpStatus status = controller.findClientById(100L).getStatusCode();

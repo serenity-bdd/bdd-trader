@@ -1,5 +1,6 @@
 package net.bddtrader.portfolios;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import net.bddtrader.config.TraderConfiguration;
 import net.bddtrader.config.TradingDataSource;
@@ -21,6 +22,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
+@Api("portfolio")
 public class PortfolioController {
 
     private final PortfolioDirectory portfolioDirectory;
@@ -61,7 +63,7 @@ public class PortfolioController {
         Optional<Portfolio> portfolio = portfolioDirectory.findById(portfolioId);
 
         return portfolio.map(
-                portfolioFound   -> new ResponseEntity<>(portfolioFound, OK))
+                portfolioFound -> new ResponseEntity<>(portfolioFound, OK))
                 .orElseGet(() -> new ResponseEntity<>(NOT_FOUND));
     }
 
@@ -76,12 +78,15 @@ public class PortfolioController {
         if (!portfolio.isPresent()) {
             return new ResponseEntity<>(NOT_FOUND);
         }
-        if (!portfolio.get().hasSufficientFundsFor(trade)) {
+
+        Portfolio foundPortfolio = portfolio.get();
+
+        try {
+            foundPortfolio.placeOrderUsingPricesFrom(tradingDataAPI).forTrade(trade);
+        } catch (InsufficientFundsException notEnoughDough) {
             return new ResponseEntity<>(PAYMENT_REQUIRED);
         }
 
-        Portfolio foundPortfolio = portfolio.get();
-        foundPortfolio.placeOrder(trade);
         return new ResponseEntity<>(foundPortfolio, OK);
     }
 

@@ -1,11 +1,7 @@
 = BDD Trader application
 
-The BDD Trader application demonstrates BDD and test automation techniques using Serenity BDD. The application allows users to create portfolios of shares using real market data.
-
-The application is made of several components
-
-  * A set of REST API endpoints
-  * An AngularJS frontend
+The BDD Trader application demonstrates BDD and test automation techniques using Serenity BDD.
+The application allows users to create portfolios of shares using real market data.
 
 == Building the project
 
@@ -46,7 +42,32 @@ You can run the full test suite by running `mvn verify`.
 The application manages Clients, who own Portfolios of shares. Clients can buy and sell shares
 at market rates, and the service keeps track of the transactions and of the client's current position.
 
-Clients need to register with the service by providing their name and an email address.
+=== The Client service
+Clients need to register with the service by providing their first and last name via the `client` REST end-point.
+When clients register, they are given a portfolio with $1000.
+
+=== The Portfolio service
+
+Each client has a portfolio to invest with.
+You can view the details of a portfolio via the `/api/client/{clientId}/portfolio` endpoint.
+Each portfolio has a unique identifier, and we use the portfolio identifier to interact with the portfolio.
+
+You can place orders for trades to buy or sell shares through the portfolio.
+In the DEV environment, a number of shares are predefined, including:
+
+  * Amazon (AMZN)
+  * Google (GOOG)
+  * Apple (AAPL)
+  * IBM (IBM)
+
+You can see them all by using the `/api/stock/popular` endpoint.
+
+Users place orders to buy or sell shares by posting a trade order to the `/api/portfolio/{portfolioId}/order` endpoint.
+The share parice and cost of the order can be provided (so that you can inject historical trades),
+or will be based on the current market price if the price is set to 0. If the user has insufficient funds,
+a 402 PAYMENT REQUIRED error will be returned.
+
+
 
 === The REST end points
 

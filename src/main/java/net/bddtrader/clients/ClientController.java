@@ -1,5 +1,6 @@
 package net.bddtrader.clients;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import net.bddtrader.portfolios.PortfolioController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,12 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+/**
+ * Clients register with the application by providing their first and last name.
+ * When clients register, they are given a portfolio with $1000.
+ */
 @RestController
+@Api("client")
 public class ClientController {
 
     private final ClientDirectory clientDirectory;

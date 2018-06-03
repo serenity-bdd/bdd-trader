@@ -1,8 +1,12 @@
 package net.bddtrader.portfolios;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableMap;
 import net.bddtrader.portfolios.dsl.InCurrency;
 import net.bddtrader.portfolios.dsl.SharesOf;
+import net.bddtrader.tradingdata.PriceReader;
+import net.bddtrader.tradingdata.TradingDataAPI;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -39,7 +43,11 @@ public class Trade {
 
     private static final AtomicLong ID_COUNTER = new AtomicLong(1);
 
-    protected Trade(String securityCode, TradeType type, Long amount, Long priceInCents) {
+    @JsonCreator
+    protected Trade(@JsonProperty("securityCode") String securityCode,
+                    @JsonProperty("type") TradeType type,
+                    @JsonProperty("amount") Long amount,
+                    @JsonProperty("priceInCents") Long priceInCents) {
         this.id = ID_COUNTER.getAndIncrement();
         this.timestamp = LocalDateTime.now();
         this.securityCode = securityCode;
@@ -47,6 +55,16 @@ public class Trade {
         this.amount = amount;
         this.priceInCents = priceInCents;
         this.totalInCents = amount * priceInCents;
+    }
+
+    private Trade(Long id, String securityCode, LocalDateTime timestamp, TradeType type, Long amount, Long priceInCents, Long totalInCents) {
+        this.id = id;
+        this.securityCode = securityCode;
+        this.timestamp = timestamp;
+        this.type = type;
+        this.amount = amount;
+        this.priceInCents = priceInCents;
+        this.totalInCents = totalInCents;
     }
 
     public Long getId() {
@@ -111,5 +129,9 @@ public class Trade {
                 ", priceInCents=" + priceInCents +
                 ", totalInCents=" + totalInCents +
                 '}';
+    }
+
+    public Trade atPrice(Double marketPrice) {
+        return new Trade(id, securityCode, timestamp, type, amount, (long) (marketPrice * 100), (long) (marketPrice  * 100 * amount));
     }
 }

@@ -1,5 +1,6 @@
 package net.bddtrader.status;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import net.bddtrader.config.TraderConfiguration;
 import net.bddtrader.config.TradingDataSource;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
+@Api("status")
 public class StatusController {
 
     private final TradingDataSource tradingDataSource;
