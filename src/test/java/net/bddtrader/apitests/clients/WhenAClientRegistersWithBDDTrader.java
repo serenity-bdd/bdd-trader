@@ -4,11 +4,14 @@ import net.bddtrader.clients.Client;
 import net.bddtrader.clients.ClientController;
 import net.bddtrader.clients.ClientDirectory;
 import net.bddtrader.portfolios.PortfolioController;
+import net.bddtrader.tradingdata.TradingData;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
+import static net.bddtrader.config.TradingDataSource.DEV;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
@@ -18,6 +21,11 @@ public class WhenAClientRegistersWithBDDTrader {
     ClientDirectory clientDirectory = new ClientDirectory();
     ClientController controller = new ClientController(clientDirectory, portfolioController);
 
+
+    @Before
+    public void resetTestData() {
+        TradingData.instanceFor(DEV).reset();
+    }
 
     @Test
     public void aClientRegistersByProvidingANameAndAPassword() {

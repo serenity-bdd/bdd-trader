@@ -65,4 +65,7 @@ public class IEXtradingAPI implements TradingDataAPI {
     public void updatePriceFor(String stockid, Double currentPrice) {
         throw new IllegalPriceManiuplationException("Attempt to update prices in production");
     }
+
+    @Override
+    public void reset() {}
 }

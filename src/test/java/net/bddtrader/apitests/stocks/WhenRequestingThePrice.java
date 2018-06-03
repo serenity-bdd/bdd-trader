@@ -1,6 +1,7 @@
 package net.bddtrader.apitests.stocks;
 
 import net.bddtrader.stocks.StockController;
+import net.bddtrader.tradingdata.TradingData;
 import net.bddtrader.tradingdata.exceptions.IllegalPriceManiuplationException;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +17,8 @@ public class WhenRequestingThePrice {
 
     @Before
     public void prepareNewsController() {
-        controller = new StockController(IEX);
+        controller = new StockController(DEV);
+        TradingData.instanceFor(DEV).reset();
     }
 
     @Test
@@ -35,6 +37,7 @@ public class WhenRequestingThePrice {
 
     @Test(expected = HttpClientErrorException.class)
     public void shouldReportResourceNotFoundForUnknownStocks() {
+        controller = new StockController(IEX);
         controller.priceFor("UNKNOWN-STOCK");
     }
 

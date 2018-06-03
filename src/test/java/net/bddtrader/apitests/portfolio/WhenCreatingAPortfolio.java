@@ -6,8 +6,10 @@ import net.bddtrader.portfolios.Portfolio;
 import net.bddtrader.portfolios.PortfolioWithPositions;
 import net.bddtrader.tradingdata.PriceReader;
 import net.bddtrader.tradingdata.TradingData;
+import org.junit.Before;
 import org.junit.Test;
 
+import static net.bddtrader.config.TradingDataSource.DEV;
 import static net.bddtrader.portfolios.Trade.buy;
 import static net.bddtrader.portfolios.Trade.deposit;
 import static net.bddtrader.portfolios.Trade.sell;
@@ -18,6 +20,11 @@ import static org.mockito.Mockito.when;
 public class WhenCreatingAPortfolio {
 
     Portfolio portfolio = new Portfolio(1L,1L);
+
+    @Before
+    public void resetTestData() {
+        TradingData.instanceFor(DEV).reset();
+    }
 
     @Test
     public void aNewPortfolioStartsWith1000DollarsOnACashAccount() {

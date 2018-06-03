@@ -73,4 +73,9 @@ public class StaticAPI implements TradingDataAPI {
     private File testDataFrom(String source) {
         return new File(this.getClass().getResource("/sample_data/" + source).getPath());
     }
+
+    @Override
+    public void reset() {
+        stockPrices = loadSamplePrices();
+    }
 }

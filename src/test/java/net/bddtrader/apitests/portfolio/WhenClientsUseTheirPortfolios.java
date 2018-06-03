@@ -8,11 +8,13 @@ import net.bddtrader.config.TradingDataSource;
 import net.bddtrader.portfolios.*;
 import net.bddtrader.tradingdata.TradingData;
 import net.bddtrader.tradingdata.TradingDataAPI;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
 import java.util.Map;
 
+import static net.bddtrader.config.TradingDataSource.DEV;
 import static net.bddtrader.portfolios.Trade.buy;
 import static net.bddtrader.portfolios.Trade.sell;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,6 +26,11 @@ public class WhenClientsUseTheirPortfolios {
     ClientDirectory clientDirectory = new ClientDirectory();
     PortfolioController portfolioController = new PortfolioController(TradingDataSource.DEV, portfolioDirectory);
     ClientController clientController = new ClientController(clientDirectory, portfolioController);
+
+    @Before
+    public void resetTestData() {
+        TradingData.instanceFor(DEV).reset();
+    }
 
     @Test
     public void whenAClientRegistersTheyAreGivenAPortfolio() {
