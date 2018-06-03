@@ -50,6 +50,17 @@
 			"response": []
 		},
 		{
+			"name": "update stock price",
+			"request": {
+				"url": "http://localhost:8080/stock/AAPL/price",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
 			"name": "See popular stocks",
 			"request": {
 				"url": "http://localhost:8080/api/stock/popular",
@@ -116,6 +127,17 @@
 					"mode": "raw",
 					"raw": "{ \n\t\"securityCode\": \"AAPL\",\n\t\"type\" : \"Buy\",\n\t\"amount\" : 10,\n\t\"priceInCents\" : 5000\n}"
 				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Show portfolio profits",
+			"request": {
+				"url": "http://localhost:8080/api/portfolio/1/profit",
+				"method": "GET",
+				"header": [],
+				"body": {},
 				"description": ""
 			},
 			"response": []
