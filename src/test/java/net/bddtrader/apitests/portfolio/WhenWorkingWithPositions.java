@@ -5,7 +5,6 @@ import net.bddtrader.portfolios.Trade;
 import org.junit.Test;
 
 import static net.bddtrader.portfolios.Trade.*;
-import static net.bddtrader.portfolios.TradeType.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class WhenWorkingWithPositions {
@@ -77,7 +76,7 @@ public class WhenWorkingWithPositions {
 
         assertThat(position.getSecurityCode()).isEqualTo("CASH");
         assertThat(position.getMarketValueInDollars()).isEqualTo(0.01);
-        assertThat(position.getAmount()).isEqualTo(100L);
+        assertThat(position.getAmount()).isEqualTo(10000L);
         assertThat(position.getTotalPurchasePriceInDollars()).isEqualTo(100.00);
         assertThat(position.getTotalValueInDollars()).isEqualTo(100.00);
 
