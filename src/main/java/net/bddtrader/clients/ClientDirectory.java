@@ -1,12 +1,17 @@
 package net.bddtrader.clients;
 
+import com.google.common.base.Joiner;
+import net.bddtrader.exceptions.MissingMandatoryFieldsException;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicLong;
+
+import static org.springframework.util.StringUtils.isEmpty;
 
 /**
  * An in-memory directory of registered clients.
@@ -18,12 +23,34 @@ public class ClientDirectory {
     private final AtomicLong clientCount = new AtomicLong(1);
 
     public Client registerClient(Client newClient) {
+
+        ensureMandatoryFieldsArePresentFor(newClient);
+
         Client registeredClient = new Client(clientCount.getAndIncrement(),
                                              newClient.getFirstName(),
                                              newClient.getLastName(),
                                              newClient.getEmail());
         registeredClients.add(registeredClient);
         return registeredClient;
+    }
+
+    private void ensureMandatoryFieldsArePresentFor(Client newClient) {
+
+        List<String> missingMandatoryFields = new ArrayList<>();
+        if (isEmpty(newClient.getFirstName().trim())) {
+            missingMandatoryFields.add("firstName");
+        }
+        if (isEmpty(newClient.getLastName().trim())) {
+            missingMandatoryFields.add("lastName");
+        }
+        if (isEmpty(newClient.getEmail().trim())) {
+            missingMandatoryFields.add("email");
+        }
+
+        if (!missingMandatoryFields.isEmpty()) {
+            throw new MissingMandatoryFieldsException("Missing mandatory fields for client:"
+                                                      + Joiner.on(", ").join(missingMandatoryFields));
+        }
     }
 
     public Optional<Client> findClientById(long id) {

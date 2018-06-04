@@ -37,7 +37,7 @@ public class WhenClientsUseTheirPortfolios {
 
         Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
 
-        Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
+        Portfolio portfolio = portfolioController.viewPortfolio(joe.getId());
 
         assertThat(portfolio.getCash()).isEqualTo(1000.00);
     }
@@ -47,12 +47,12 @@ public class WhenClientsUseTheirPortfolios {
 
         Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
 
-        Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
+        Portfolio portfolio = portfolioController.viewPortfolio(joe.getId());
 
         portfolioController.placeOrder(portfolio.getPortfolioId(),
                                        buy(10L).sharesOf("AAPL").at(500L).centsEach());
 
-        Position applPosition = portfolioController.getPositions(portfolio.getPortfolioId()).getBody().get("AAPL");
+        Position applPosition = portfolioController.getPositions(portfolio.getPortfolioId()).get("AAPL");
 
         assertThat(applPosition.getAmount()).isEqualTo(10L);
     }
@@ -61,14 +61,14 @@ public class WhenClientsUseTheirPortfolios {
     public void clientsCanPurchaseSharesWithTheirPortfolioAtMarketPrices() {
 
         Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
-        Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
+        Portfolio portfolio = portfolioController.viewPortfolio(joe.getId());
 
         TradingData.instanceFor(TradingDataSource.DEV).updatePriceFor("AAPL", 50.00);
 
         portfolioController.placeOrder(portfolio.getPortfolioId(),
                 buy(1L).sharesOf("AAPL").atMarketPrice());
 
-        Position applPosition = portfolioController.getPositions(portfolio.getPortfolioId()).getBody().get("AAPL");
+        Position applPosition = portfolioController.getPositions(portfolio.getPortfolioId()).get("AAPL");
 
         assertThat(applPosition.getTotalPurchasePriceInDollars()).isEqualTo(50.00);
     }
@@ -78,7 +78,7 @@ public class WhenClientsUseTheirPortfolios {
 
         Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
 
-        Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
+        Portfolio portfolio = portfolioController.viewPortfolio(joe.getId());
 
         portfolioController.placeOrder(portfolio.getPortfolioId(),
                 buy(10L).sharesOf("AAPL").at(500L).centsEach());
@@ -86,7 +86,7 @@ public class WhenClientsUseTheirPortfolios {
         portfolioController.placeOrder(portfolio.getPortfolioId(),
                 buy(20L).sharesOf("IBM").at(500L).centsEach());
 
-        Map<String, Position> positions = portfolioController.getPositions(portfolio.getPortfolioId()).getBody();
+        Map<String, Position> positions = portfolioController.getPositions(portfolio.getPortfolioId());
         Position applPosition = positions.get("AAPL");
         Position ibmPosition = positions.get("IBM");
         Position cashPosition = positions.get("CASH");
@@ -101,12 +101,12 @@ public class WhenClientsUseTheirPortfolios {
 
         Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
 
-        Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
+        Portfolio portfolio = portfolioController.viewPortfolio(joe.getId());
 
         portfolioController.placeOrder(portfolio.getPortfolioId(),
                 buy(10L).sharesOf("AAPL").at(10000L).centsEach());
 
-        Map<String, Position> positions = portfolioController.getPositions(portfolio.getPortfolioId()).getBody();
+        Map<String, Position> positions = portfolioController.getPositions(portfolio.getPortfolioId());
         Position applPosition = positions.get("AAPL");
 
         assertThat(applPosition.getProfit()).isEqualTo(902.40);
@@ -117,12 +117,12 @@ public class WhenClientsUseTheirPortfolios {
 
         Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
 
-        Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
+        Portfolio portfolio = portfolioController.viewPortfolio(joe.getId());
 
         portfolioController.placeOrder(portfolio.getPortfolioId(),
                 buy(1L).sharesOf("AAPL").at(20000L).centsEach());
 
-        Map<String, Position> positions = portfolioController.getPositions(portfolio.getPortfolioId()).getBody();
+        Map<String, Position> positions = portfolioController.getPositions(portfolio.getPortfolioId());
         Position applPosition = positions.get("AAPL");
 
         assertThat(applPosition.getProfit()).isEqualTo(-9.76);
@@ -133,7 +133,7 @@ public class WhenClientsUseTheirPortfolios {
 
         Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
 
-        Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
+        Portfolio portfolio = portfolioController.viewPortfolio(joe.getId());
 
         portfolioController.placeOrder(portfolio.getPortfolioId(),
                 buy(1L).sharesOf("AAPL").at(20000L).centsEach());
@@ -141,7 +141,7 @@ public class WhenClientsUseTheirPortfolios {
         portfolioController.placeOrder(portfolio.getPortfolioId(),
                 buy(50L).sharesOf("GE").at(1110L).centsEach());
 
-        Double profitAndLoss = portfolioController.getProfitAndLoss(portfolio.getPortfolioId()).getBody();
+        Double profitAndLoss = portfolioController.getProfitAndLoss(portfolio.getPortfolioId());
 
         assertThat(profitAndLoss).isEqualTo(150.00 - 9.76);
     }
@@ -153,7 +153,7 @@ public class WhenClientsUseTheirPortfolios {
 
         Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
 
-        Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
+        Portfolio portfolio = portfolioController.viewPortfolio(joe.getId());
 
         portfolioController.placeOrder(portfolio.getPortfolioId(),
                 buy(10L).sharesOf("AAPL").at(500L).centsEach());
@@ -161,7 +161,7 @@ public class WhenClientsUseTheirPortfolios {
         portfolioController.placeOrder(portfolio.getPortfolioId(),
                 buy(20L).sharesOf("IBM").at(500L).centsEach());
 
-        List<Trade> history = portfolioController.getHistory(portfolio.getPortfolioId()).getBody();
+        List<Trade> history = portfolioController.getHistory(portfolio.getPortfolioId());
         assertThat(history).hasSize(5);
     }
 

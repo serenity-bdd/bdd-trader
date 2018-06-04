@@ -3,6 +3,7 @@ package net.bddtrader.apitests.clients;
 import net.bddtrader.clients.Client;
 import net.bddtrader.clients.ClientController;
 import net.bddtrader.clients.ClientDirectory;
+import net.bddtrader.exceptions.MissingMandatoryFieldsException;
 import net.bddtrader.portfolios.PortfolioController;
 import net.bddtrader.tradingdata.TradingData;
 import org.junit.Before;
@@ -28,13 +29,28 @@ public class WhenAClientRegistersWithBDDTrader {
     }
 
     @Test
-    public void aClientRegistersByProvidingANameAndAPassword() {
+    public void aClientRegistersByProvidingANameAPasswordAndAnEmail() {
 
         // WHEN
         Client registeredClient = controller.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
 
         // THEN
         assertThat(registeredClient).isEqualToComparingFieldByField(registeredClient);
+    }
+
+    @Test(expected = MissingMandatoryFieldsException.class)
+    public void firstNameIsMandatory() {
+        controller.register(controller.register(Client.withFirstName("").andLastName("Smith").andEmail("sarah-jane@smith.com")));
+    }
+
+    @Test(expected = MissingMandatoryFieldsException.class)
+    public void lastNameIsMandatory() {
+        controller.register(controller.register(Client.withFirstName("Sarah-Jane").andLastName("").andEmail("sarah-jane@smith.com")));
+    }
+
+    @Test(expected = MissingMandatoryFieldsException.class)
+    public void emailIsMandatory() {
+        controller.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail(""));
     }
 
     @Test

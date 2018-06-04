@@ -46,81 +46,59 @@ public class PortfolioController {
 
     @RequestMapping(value = "/api/client/{clientId}/portfolio", method = GET)
     @ApiOperation("View the portfolio of a client")
-    public ResponseEntity<Portfolio> viewPortfolioForClient(@PathVariable Long clientId) {
+    public Portfolio viewPortfolioForClient(@PathVariable Long clientId) {
 
-        Optional<Portfolio> portfolio = portfolioDirectory.findByClientId(clientId);
+        Portfolio portfolioFound = portfolioDirectory.findByClientId(clientId)
+                                                     .orElseThrow(() -> new PortfolioNotFoundException("No portfolio found for client id " + clientId));
 
-        return portfolio.map(
-                portfolioFound   -> new ResponseEntity<>(portfolioFound.withMarketPricesFrom(tradingDataAPI), OK))
-                .orElseGet(() -> new ResponseEntity<>(NOT_FOUND));
+        return portfolioFound.withMarketPricesFrom(tradingDataAPI);
     }
 
 
     @RequestMapping(value = "/api/portfolio/{portfolioId}", method = GET)
     @ApiOperation("View a portfolio with a given ID")
-    public ResponseEntity<Portfolio>  viewPortfolio(@PathVariable Long portfolioId) {
+    public Portfolio  viewPortfolio(@PathVariable Long portfolioId) {
 
-        Optional<Portfolio> portfolio = portfolioDirectory.findById(portfolioId);
-
-        return portfolio.map(
-                portfolioFound -> new ResponseEntity<>(portfolioFound.withMarketPricesFrom(tradingDataAPI), OK))
-                .orElseGet(() -> new ResponseEntity<>(NOT_FOUND));
+        return findById(portfolioId).withMarketPricesFrom(tradingDataAPI);
     }
 
     @RequestMapping(value = "/api/portfolio/{portfolioId}/order", method = POST)
     @ApiOperation(value="Place an order for a trade in a given portfolio",
                   notes="Use the special CASH security code to deposit more money into the portfolio")
-    public ResponseEntity<Portfolio> placeOrder(@PathVariable Long portfolioId,
+    public Portfolio placeOrder(@PathVariable Long portfolioId,
                                                 @RequestBody Trade trade) {
 
-        Optional<Portfolio> portfolio = portfolioDirectory.findById(portfolioId);
+        Portfolio foundPortfolio = findById(portfolioId);
 
-        if (!portfolio.isPresent()) {
-            return new ResponseEntity<>(NOT_FOUND);
-        }
+        foundPortfolio.placeOrderUsingPricesFrom(tradingDataAPI).forTrade(trade);
 
-        Portfolio foundPortfolio = portfolio.get();
-
-        try {
-            foundPortfolio.placeOrderUsingPricesFrom(tradingDataAPI).forTrade(trade);
-        } catch (InsufficientFundsException notEnoughDough) {
-            return new ResponseEntity<>(PAYMENT_REQUIRED);
-        }
-
-        return new ResponseEntity<>(foundPortfolio, OK);
+        return foundPortfolio;
     }
 
     @RequestMapping(value = "/api/portfolio/{portfolioId}/history", method = GET)
     @ApiOperation("See the history of all the trades made in this portfolio")
-    public ResponseEntity<List<Trade>> getHistory(@PathVariable Long portfolioId) {
+    public List<Trade> getHistory(@PathVariable Long portfolioId) {
 
-        Optional<Portfolio> portfolio = portfolioDirectory.findById(portfolioId);
-
-        return portfolio.map(
-                foundPortfolio -> new ResponseEntity<>(foundPortfolio.getHistory(), OK))
-                .orElseGet(() -> new ResponseEntity<>(NOT_FOUND));
+        return findById(portfolioId).getHistory();
     }
 
     @RequestMapping(value = "/api/portfolio/{portfolioId}/positions", method = GET)
     @ApiOperation("Get the current positions for a given portfolio")
-    public ResponseEntity<Map<String,Position>> getPositions(@PathVariable Long portfolioId) {
+    public Map<String,Position> getPositions(@PathVariable Long portfolioId) {
 
-        Optional<Portfolio> portfolio = portfolioDirectory.findById(portfolioId);
-
-        return portfolio.map(
-                foundPortfolio -> new ResponseEntity<>(foundPortfolio.calculatePositionsUsing(tradingDataAPI), OK))
-                .orElseGet(() -> new ResponseEntity<>(NOT_FOUND));
+        return findById(portfolioId).calculatePositionsUsing(tradingDataAPI);
     }
 
     @RequestMapping(value = "/api/portfolio/{portfolioId}/profit", method = GET)
     @ApiOperation("Get the overall profit or loss value for a given portfolio")
-    public ResponseEntity<Double> getProfitAndLoss(@PathVariable Long portfolioId) {
+    public Double getProfitAndLoss(@PathVariable Long portfolioId) {
 
-        Optional<Portfolio> portfolio = portfolioDirectory.findById(portfolioId);
+        return findById(portfolioId).calculateProfitUsing(tradingDataAPI);
+    }
 
-        return portfolio.map(
-                foundPortfolio -> new ResponseEntity<>(foundPortfolio.calculateProfitUsing(tradingDataAPI), OK))
-                .orElseGet(() -> new ResponseEntity<>(NOT_FOUND));
+    private Portfolio findById(@PathVariable Long portfolioId) {
+        return portfolioDirectory.findById(portfolioId)
+                .orElseThrow(() -> new PortfolioNotFoundException("No portfolio found for id " + portfolioId));
     }
 
 }
