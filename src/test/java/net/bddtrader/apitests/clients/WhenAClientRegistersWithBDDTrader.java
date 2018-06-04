@@ -31,7 +31,7 @@ public class WhenAClientRegistersWithBDDTrader {
     public void aClientRegistersByProvidingANameAndAPassword() {
 
         // WHEN
-        Client registeredClient = controller.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
+        Client registeredClient = controller.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
 
         // THEN
         assertThat(registeredClient).isEqualToComparingFieldByField(registeredClient);
@@ -41,7 +41,7 @@ public class WhenAClientRegistersWithBDDTrader {
     public void registeredClientsAreStoredInTheClientDirectory() {
 
         // WHEN
-        Client registeredClient = controller.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
+        Client registeredClient = controller.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
 
         // THEN
         assertThat(clientDirectory.findClientById(1))
@@ -53,21 +53,21 @@ public class WhenAClientRegistersWithBDDTrader {
     public void registeredClientsCanBeRetrievedById() {
 
         // GIVEN
-        Client sarahJane = controller.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
+        Client sarahJane = controller.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
 
         // WHEN
         Client foundClient = controller.findClientById(1L).getBody();
 
         // THEN
-        assertThat(foundClient).isEqualTo(sarahJane);
+        assertThat(foundClient).isEqualToComparingFieldByField(sarahJane);
     }
 
     @Test
     public void registeredClientsCanBeListed() {
 
         // GIVEN
-        controller.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
-        controller.register(Client.withFirstName("Joe").andLastName("Smith"));
+        controller.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
+        controller.register(Client.withFirstName("Joe").andLastName("Smith").andEmail("joe@smith.com"));
 
         // WHEN
         List<Client> foundClients = controller.findAll();
@@ -80,7 +80,7 @@ public class WhenAClientRegistersWithBDDTrader {
     public void returns404WhenNoMatchingClientIsFound() {
 
         // GIVEN
-        controller.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
+        controller.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
 
         // WHEN
         HttpStatus status = controller.findClientById(100L).getStatusCode();

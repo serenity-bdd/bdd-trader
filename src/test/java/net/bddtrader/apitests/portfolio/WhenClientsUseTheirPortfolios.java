@@ -35,7 +35,7 @@ public class WhenClientsUseTheirPortfolios {
     @Test
     public void whenAClientRegistersTheyAreGivenAPortfolio() {
 
-        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
+        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
 
         Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
 
@@ -45,7 +45,7 @@ public class WhenClientsUseTheirPortfolios {
     @Test
     public void clientsCanPurchaseSharesWithTheirPortfolio() {
 
-        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
+        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
 
         Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
 
@@ -60,7 +60,7 @@ public class WhenClientsUseTheirPortfolios {
     @Test
     public void clientsCanPurchaseSharesWithTheirPortfolioAtMarketPrices() {
 
-        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
+        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
         Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
 
         TradingData.instanceFor(TradingDataSource.DEV).updatePriceFor("AAPL", 50.00);
@@ -76,7 +76,7 @@ public class WhenClientsUseTheirPortfolios {
     @Test
     public void clientsCanViewTheirPositions() {
 
-        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
+        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
 
         Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
 
@@ -99,7 +99,7 @@ public class WhenClientsUseTheirPortfolios {
     @Test
     public void clientsCanViewTheirProfitsForEachPosition() {
 
-        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
+        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
 
         Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
 
@@ -115,7 +115,7 @@ public class WhenClientsUseTheirPortfolios {
     @Test
     public void clientsCanViewTheirLossesForEachPosition() {
 
-        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
+        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
 
         Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
 
@@ -131,7 +131,7 @@ public class WhenClientsUseTheirPortfolios {
     @Test
     public void clientsCanViewTheirOverallProfitsAndLosses() {
 
-        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
+        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
 
         Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
 
@@ -151,7 +151,7 @@ public class WhenClientsUseTheirPortfolios {
     @Test
     public void clientsCanViewTheirTradeHistory() {
 
-        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith"));
+        Client joe = clientController.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
 
         Portfolio portfolio = portfolioController.viewPortfolio(joe.getId()).getBody();
 

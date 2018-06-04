@@ -18,7 +18,10 @@ public class ClientDirectory {
     private final AtomicLong clientCount = new AtomicLong(1);
 
     public Client registerClient(Client newClient) {
-        Client registeredClient = new Client(clientCount.getAndIncrement(), newClient.getFirstName(), newClient.getLastName());
+        Client registeredClient = new Client(clientCount.getAndIncrement(),
+                                             newClient.getFirstName(),
+                                             newClient.getLastName(),
+                                             newClient.getEmail());
         registeredClients.add(registeredClient);
         return registeredClient;
     }
