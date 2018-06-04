@@ -1,6 +1,8 @@
 package net.bddtrader.news;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.ZonedDateTime;
 
@@ -13,9 +15,14 @@ public class NewsItem {
     private String summary;
     private String related;
 
-    public NewsItem() {}
-
-    public NewsItem(ZonedDateTime datetime, String headline, String source, String url, String summary, String related) {
+    @JsonCreator
+    public NewsItem(
+            @JsonProperty("datetime") ZonedDateTime datetime,
+            @JsonProperty("headline") String headline,
+            @JsonProperty("source") String source,
+            @JsonProperty("url") String url,
+            @JsonProperty("summary") String summary,
+            @JsonProperty("related") String related) {
         this.datetime = datetime;
         this.headline = headline;
         this.source = source;
@@ -46,17 +53,5 @@ public class NewsItem {
 
     public String getRelated() {
         return related;
-    }
-
-    @Override
-    public String toString() {
-        return "NewsItem{" +
-                "datetime=" + datetime +
-                ", headline='" + headline + '\'' +
-                ", source='" + source + '\'' +
-                ", url='" + url + '\'' +
-                ", summary='" + summary + '\'' +
-                ", related=" + related +
-                '}';
     }
 }
