@@ -1,10 +1,7 @@
 = BDD Trader application
 
 The BDD Trader application demonstrates BDD and test automation techniques using Serenity BDD.
-
-To run this tutorial, you will need JDK 8, Maven and Git, as well as a modern IDE
-such as IntelliJ IDE. You can also use Postman to experiment with the REST end points - there
-is a set of preconfigured Postman queries in `src/test/resources/BDDTrader.postman_collection`. 
+The application allows users to create portfolios of shares using real market data.
 
 == Building the project
 
@@ -42,12 +39,8 @@ You can run the full test suite by running `mvn verify`.
 
 === The application domain
 
-The application allows users to buy and sell shares using real market data.
-Each **Client** is given a **Portfolio**, a special account where the client keeps track
-of the shares they buy and sell. At any point in time, the client's **Position** represents
-the number of shares they have in their portfolio, the amount of cash they have available,
-and the current value of these shares. A client buys and sells shares by placing an **Order**.
-When the order is executed, a **Trade** is recorded in the portfolio **history**.
+The application manages Clients, who own Portfolios of shares. Clients can buy and sell shares
+at market rates, and the service keeps track of the transactions and of the client's current position.
 
 === The Client service
 Clients need to register with the service by providing their first and last name via the `client` REST end-point.
@@ -70,13 +63,12 @@ In the DEV environment, a number of shares are predefined, including:
 You can see them all by using the `/api/stock/popular` endpoint.
 
 Users place orders to buy or sell shares by posting a trade order to the `/api/portfolio/{portfolioId}/order` endpoint.
-The share price and cost of the order can be provided (so that you can inject historical trades),
+The share parice and cost of the order can be provided (so that you can inject historical trades),
 or will be based on the current market price if the price is set to 0. If the user has insufficient funds,
 a 402 PAYMENT REQUIRED error will be returned.
 
-You can see a client's current position via the `/api/portfolio/{portfolioId}/positions` endpoint.
-You can also view a list of the trading history of a portfolio using `/api/portfolio/{portfolioId}/history`.
 
-=== Swagger REST Documentation
+
+=== The REST end points
 
 When the application is running, you can see the REST API documentation at http://localhost:8080/swagger-ui.html
