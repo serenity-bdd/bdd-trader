@@ -16,10 +16,11 @@ import static java.util.Objects.requireNonNull;
 import static org.springframework.http.HttpMethod.GET;
 
 public class IEXtradingAPI implements TradingDataAPI {
+
+    private final RestTemplate restTemplate = new RestTemplate();
+
     @Override
     public List<NewsItem> getNewsFor(String stockid) {
-
-        RestTemplate restTemplate = new RestTemplate();
 
         ResponseEntity<List<NewsItem>> response =
                 restTemplate.exchange("https://api.iextrading.com/1.0/stock/{stockid}/news",
@@ -36,8 +37,6 @@ public class IEXtradingAPI implements TradingDataAPI {
             return 0.01;
         }
 
-        RestTemplate restTemplate = new RestTemplate();
-
         ResponseEntity<Double> response =
                 restTemplate.exchange("https://api.iextrading.com/1.0/stock/{stockid}/price",
                         GET, null,
@@ -48,8 +47,6 @@ public class IEXtradingAPI implements TradingDataAPI {
 
     @Override
     public List<String> getPopularStocks() {
-
-        RestTemplate restTemplate = new RestTemplate();
 
         ResponseEntity<List<TopStock>> response =
                 restTemplate.exchange("https://api.iextrading.com/1.0/tops",

@@ -82,5 +82,14 @@ public class WhenWorkingWithPositions {
 
     }
 
+    @Test
+    public void theProfitOfTheCashAccountIsAlwaysZero() {
+
+        Trade trade = deposit(100L).dollars();
+        Position position = Position.fromTrade(trade);
+
+        assertThat(position.getProfit()).isEqualTo(0.0);
+    }
+
 }
 

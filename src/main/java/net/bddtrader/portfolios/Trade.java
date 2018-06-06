@@ -119,18 +119,6 @@ public class Trade {
         return Optional.of(new Trade(CASH_ACCOUNT, OPPOSITE_TRADETYPE.get(type), getTotalInCents(), 1L));
     }
 
-    @Override
-    public String toString() {
-        return "Trade{" +
-                "id=" + id +
-                ", securityCode='" + securityCode + '\'' +
-                ", type=" + type +
-                ", amount=" + amount +
-                ", priceInCents=" + priceInCents +
-                ", totalInCents=" + totalInCents +
-                '}';
-    }
-
     public Trade atPrice(Double marketPrice) {
         return new Trade(id, securityCode, timestamp, type, amount, (long) (marketPrice * 100), (long) (marketPrice  * 100 * amount));
     }

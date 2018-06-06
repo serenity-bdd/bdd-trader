@@ -41,6 +41,25 @@ public class WhenRequestingThePrice {
         controller.priceFor("UNKNOWN-STOCK");
     }
 
+    @Test
+    public void priceForCashOnIEXShouldAlwaysBe1Cent() {
+        controller = new StockController(IEX);
+        assertThat(controller.priceFor("CASH")).isEqualTo(0.01);
+    }
+
+    @Test
+    public void shouldFindPopularStocks() {
+        controller = new StockController(DEV);
+        assertThat(controller.getPopularStocks()).isNotEmpty();
+    }
+
+
+    @Test
+    public void shouldFindPopularStocksFromIEX() {
+        controller = new StockController(IEX);
+        // If the markets are closed, this can return an empty list
+        assertThat(controller.getPopularStocks()).isNotNull();
+    }
 
     @Test
     public void shouldAllowPricesToBeUpdatedProgrammaticallyInDev() {
