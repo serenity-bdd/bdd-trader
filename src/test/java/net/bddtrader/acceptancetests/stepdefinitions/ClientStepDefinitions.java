@@ -4,7 +4,7 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import net.bddtrader.acceptancetests.screenplay.questions.ThePortfolio;
+import net.bddtrader.acceptancetests.questions.ThePortfolio;
 import net.bddtrader.acceptancetests.tasks.RegisterWithBDDTrader;
 import net.bddtrader.clients.Client;
 import net.serenitybdd.screenplay.Actor;
@@ -13,7 +13,6 @@ import net.thucydides.core.util.EnvironmentVariables;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
-import java.util.Optional;
 
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static net.serenitybdd.screenplay.rest.questions.ResponseConsequence.seeThatResponse;

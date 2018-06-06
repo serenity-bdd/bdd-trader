@@ -1,4 +1,4 @@
-package net.bddtrader.acceptancetests.screenplay.questions;
+package net.bddtrader.acceptancetests.questions;
 
 import net.bddtrader.acceptancetests.endpoints.BDDTraderEndPoints;
 import net.bddtrader.clients.Client;
