@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import static net.bddtrader.portfolios.MoneyCalculations.dollarsFromCents;
+import static net.bddtrader.portfolios.MoneyCalculations.roundCents;
 
 public class Position {
     public static final Position EMPTY_CASH_POSITION = new Position(Trade.CASH_ACCOUNT, 0L, 0.0, 0.0, 0.0, 0.0);
@@ -59,9 +59,9 @@ public class Position {
     public static Position fromTrade(Trade trade) {
         return new Position(trade.getSecurityCode(),
                 trade.getAmount(),
-                dollarsToCents(trade.getTotalInCents()),
-                dollarsToCents(trade.getPriceInCents()),
-                dollarsToCents(trade.getTotalInCents()),
+                dollarsFromCents(trade.getTotalInCents()),
+                dollarsFromCents(trade.getPriceInCents()),
+                dollarsFromCents(trade.getTotalInCents()),
                 0.0
         );
     }
@@ -73,7 +73,7 @@ public class Position {
                 totalPurchasePriceInDollars,
                 marketPrice,
                 calculatedTotalValueFor(amount, marketPrice),
-                calculatedProfitFor(amount, marketPrice, totalPurchasePriceInDollars)
+                calculatedProfitFor(securityCode, amount, marketPrice, totalPurchasePriceInDollars)
         );
     }
 
@@ -81,19 +81,11 @@ public class Position {
         return roundCents(marketPrice * amount);
     }
 
-    private static double calculatedProfitFor(Long amount, Double marketPrice, Double totalPurchasePriceInDollars) {
+    private static double calculatedProfitFor(String securityCode, Long amount, Double marketPrice, Double totalPurchasePriceInDollars) {
+        if (securityCode.equals(Trade.CASH_ACCOUNT)) { return 0.0; }
         return roundCents(calculatedTotalValueFor(amount, marketPrice) - totalPurchasePriceInDollars);
     }
-
-    private static double dollarsToCents(long valueInCents) {
-        BigDecimal dollars = new BigDecimal(valueInCents).divide(new BigDecimal(100));
-        return dollars.setScale(2, RoundingMode.HALF_UP).doubleValue();
-    }
-
-    private static double roundCents(double valueInDollars) {
-        BigDecimal dollars = new BigDecimal(valueInDollars);
-        return dollars.setScale(2, RoundingMode.HALF_UP).doubleValue();
-    }
+    
 
     public Position apply(Trade newTrade) {
         long newAmount = amount + newTrade.getAmount() * newTrade.getType().multiplier();
@@ -105,7 +97,7 @@ public class Position {
                 newPurchasePrice,
                 newMarketPrice,
                 calculatedTotalValueFor(newAmount, newMarketPrice),
-                calculatedProfitFor(newAmount, newMarketPrice, newPurchasePrice)
+                calculatedProfitFor(securityCode, newAmount, newMarketPrice, newPurchasePrice)
         );
     }
 

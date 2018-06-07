@@ -1,11 +1,15 @@
 package net.bddtrader.stocks;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class TopStock {
     private final String symbol;
     private final Long volume;
 
 
-    public TopStock(String symbol, Long volume) {
+    @JsonCreator
+    public TopStock(@JsonProperty("symbol") String symbol, @JsonProperty("volume") Long volume) {
         this.symbol = symbol;
         this.volume = volume;
     }
