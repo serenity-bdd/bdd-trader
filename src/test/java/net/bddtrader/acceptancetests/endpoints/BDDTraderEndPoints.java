@@ -7,7 +7,8 @@ public enum BDDTraderEndPoints {
     PortfolioPositions("/portfolio/{portfolioId}/positions"),
     PlaceOrder("/portfolio/{portfolioId}/order"),
     Portfolio("/portfolio/{portfolioId}"),
-    UpdatePrice("/stock/{securityCode}/price");
+    UpdatePrice("/stock/{securityCode}/price"),
+    PortfolioProfit("/portfolio/{portfolioId}/profit");
 
     private final String path;
 
