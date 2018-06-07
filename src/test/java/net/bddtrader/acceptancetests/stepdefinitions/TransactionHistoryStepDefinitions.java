@@ -5,17 +5,12 @@ import net.bddtrader.acceptancetests.questions.ThePortfolio;
 import net.bddtrader.acceptancetests.tasks.FetchTransactionHistory;
 import net.bddtrader.clients.Client;
 import net.bddtrader.portfolios.Trade;
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 
-import java.util.Comparator;
 import java.util.List;
 
 import static net.bddtrader.acceptancetests.matchers.TradeMatchers.matchesTradesIn;
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static net.serenitybdd.screenplay.actors.OnStage.theActorInTheSpotlight;
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class TransactionHistoryStepDefinitions {
 
@@ -29,7 +24,7 @@ public class TransactionHistoryStepDefinitions {
         );
 
         theActorInTheSpotlight().should(
-                seeThat(ThePortfolio.history(), matchesTradesIn(transactionHistory))
+                seeThat("the portfolio history", ThePortfolio.history(), matchesTradesIn(transactionHistory))
         );
     }
 }
