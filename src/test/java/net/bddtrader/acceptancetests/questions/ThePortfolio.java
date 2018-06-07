@@ -37,4 +37,11 @@ public class ThePortfolio {
                 .returning(response -> response.jsonPath().getList("", Position.class));
 
     }
+
+    public static Question<Double> overallProfitForPortfolioId(Long portfolioId) {
+        return new RestQuestionBuilder<Double>().about("Overall profit")
+                .to(BDDTraderEndPoints.PortfolioProfit.path())
+                .with(request -> request.pathParam("portfolioId",portfolioId))
+                .returning(response -> response.path("portfolioId"));
+    }
 }
