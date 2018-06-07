@@ -20,7 +20,6 @@ Feature: Viewing positions
       | CASH         | 50000  | 500.00              | 0.00   |
       | SNAP         | 5      | 1000.00             | 500.00 |
 
-
   Scenario: Making profits on multiple shares
     Given Sarah Smith is a registered trader
     When Sarah has purchased 5 SNAP shares at $100 each
@@ -31,3 +30,22 @@ Feature: Viewing positions
       | SNAP         | 5      | 1000.00             | 500.00 |
       | IBM          | 10     | 600.00              | 100.00 |
     And the overall profit should be $600
+
+  Scenario: Making losses a single share
+    Given Sarah Smith is a registered trader
+    When Sarah has purchased 2 SNAP shares at $300 each
+    Then she should have the following positions:
+      | securityCode | amount | totalValueInDollars | profit  |
+      | CASH         | 40000  | 400.00              | 0.00    |
+      | SNAP         | 2      | 400.00              | -200.00 |
+
+  Scenario: Making profits and losses across multiple shares
+    Given Sarah Smith is a registered trader
+    When Sarah has purchased 2 SNAP shares at $300 each
+    And she has purchased 5 IBM shares at $50 each
+    Then she should have the following positions:
+      | securityCode | amount | totalValueInDollars | profit  |
+      | CASH         | 15000  | 150.00              | 0.00    |
+      | SNAP         | 2      | 400.00              | -200.00 |
+      | IBM          | 5      | 300.00              | 50.00  |
+    And the overall profit should be $-150.00
