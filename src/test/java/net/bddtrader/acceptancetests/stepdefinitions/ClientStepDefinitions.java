@@ -1,6 +1,5 @@
 package net.bddtrader.acceptancetests.stepdefinitions;
 
-import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -9,9 +8,6 @@ import net.bddtrader.acceptancetests.tasks.RegisterWithBDDTrader;
 import net.bddtrader.clients.Client;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.actors.OnStage;
-import net.serenitybdd.screenplay.rest.abiities.CallAnApi;
-import net.thucydides.core.annotations.Steps;
-import net.thucydides.core.util.EnvironmentVariables;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
