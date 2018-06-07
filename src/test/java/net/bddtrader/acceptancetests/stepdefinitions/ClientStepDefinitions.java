@@ -8,7 +8,9 @@ import net.bddtrader.acceptancetests.questions.ThePortfolio;
 import net.bddtrader.acceptancetests.tasks.RegisterWithBDDTrader;
 import net.bddtrader.clients.Client;
 import net.serenitybdd.screenplay.Actor;
+import net.serenitybdd.screenplay.actors.OnStage;
 import net.serenitybdd.screenplay.rest.abiities.CallAnApi;
+import net.thucydides.core.annotations.Steps;
 import net.thucydides.core.util.EnvironmentVariables;
 import org.springframework.http.HttpStatus;
 
@@ -21,22 +23,12 @@ import static org.hamcrest.Matchers.is;
 
 public class ClientStepDefinitions {
 
-    private String theRestApiBaseUrl;
-    private EnvironmentVariables environmentVariables;
     private Actor tim;
     private Client client;
 
-    @Before
-    public void configureBaseUrl() {
-        theRestApiBaseUrl = environmentVariables.optionalProperty("restapi.baseurl")
-                .orElse("http://localhost:8080/api");
-
-        tim = Actor.named("Tim the Trader").whoCan(CallAnApi.at(theRestApiBaseUrl));
-    }
-
-
     @Given("^a trader with the following details:$")
     public void a_trader_with_the_following_details(List<Client> clients) {
+        tim = OnStage.theActorCalled("Tim the trader");
         client = clients.get(0); // We are only interested in a single client
     }
 

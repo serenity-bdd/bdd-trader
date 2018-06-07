@@ -1,5 +1,6 @@
 package net.bddtrader.acceptancetests.tasks;
 
+import net.bddtrader.acceptancetests.questions.ThePortfolio;
 import net.bddtrader.clients.Client;
 import net.serenitybdd.rest.SerenityRest;
 import net.serenitybdd.screenplay.Actor;
@@ -7,8 +8,6 @@ import net.serenitybdd.screenplay.Performable;
 import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.rest.interactions.Post;
 import net.thucydides.core.annotations.Step;
-
-import java.util.Optional;
 
 import static net.bddtrader.acceptancetests.endpoints.BDDTraderEndPoints.RegisterClient;
 import static net.serenitybdd.screenplay.Tasks.instrumented;
@@ -29,13 +28,16 @@ public class RegisterWithBDDTrader implements Task {
     @Step("{0} registers a client #client")
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(
-                Post.to(RegisterClient.relativePath())
+                Post.to(RegisterClient.path())
                         .with(request -> request.header("Content-Type", "application/json")
                                 .body(client))
         );
 
         if (SerenityRest.lastResponse().statusCode() == 200) {
-            actor.remember("registeredClient", SerenityRest.lastResponse().as(Client.class));
+            Client client = SerenityRest.lastResponse().as(Client.class);
+
+            actor.remember("registeredClient", client);
+            actor.remember("clientPortfolioId", ThePortfolio.idFor(client));
         }
     }
 }

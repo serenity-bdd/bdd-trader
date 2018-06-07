@@ -2,15 +2,19 @@ package net.bddtrader.acceptancetests.endpoints;
 
 public enum BDDTraderEndPoints {
     RegisterClient("/client"),
-    ClientPortfolio("/client/{clientId}/portfolio");
+    ClientPortfolio("/client/{clientId}/portfolio"),
+    ClientPortfolioPositions("/client/{clientId}/portfolio/positions"),
+    PortfolioPositions("/portfolio/{portfolioId}/positions"),
+    PlaceOrder("/portfolio/{portfolioId}/order"),
+    Portfolio("/portfolio/{portfolioId}");
 
-    private final String relativePath;
+    private final String path;
 
-    BDDTraderEndPoints(String relativePath) {
-        this.relativePath = relativePath;
+    BDDTraderEndPoints(String path) {
+        this.path = path;
     }
 
-    public String relativePath() {
-        return relativePath;
+    public String path() {
+        return path;
     }
 }

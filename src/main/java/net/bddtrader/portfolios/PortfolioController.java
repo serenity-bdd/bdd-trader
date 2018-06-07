@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
+import static java.util.Comparator.comparing;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -54,6 +54,16 @@ public class PortfolioController {
         return portfolioFound.withMarketPricesFrom(tradingDataAPI);
     }
 
+    @RequestMapping(value = "/api/client/{clientId}/portfolio/positions", method = GET)
+    @ApiOperation("View the portfolio positions of a client")
+    public List<Position> viewPortfolioPositionsForClient(@PathVariable Long clientId) {
+
+        Portfolio portfolioFound = portfolioDirectory.findByClientId(clientId)
+                .orElseThrow(() -> new PortfolioNotFoundException("No portfolio found for client id " + clientId));
+
+        return getPositions(portfolioFound.getPortfolioId());
+    }
+
 
     @RequestMapping(value = "/api/portfolio/{portfolioId}", method = GET)
     @ApiOperation("View a portfolio with a given ID")
@@ -66,7 +76,7 @@ public class PortfolioController {
     @ApiOperation(value="Place an order for a trade in a given portfolio",
                   notes="Use the special CASH security code to deposit more money into the portfolio")
     public Portfolio placeOrder(@PathVariable Long portfolioId,
-                                                @RequestBody Trade trade) {
+                                @RequestBody Trade trade) {
 
         Portfolio foundPortfolio = findById(portfolioId);
 
@@ -84,8 +94,16 @@ public class PortfolioController {
 
     @RequestMapping(value = "/api/portfolio/{portfolioId}/positions", method = GET)
     @ApiOperation("Get the current positions for a given portfolio")
-    public Map<String,Position> getPositions(@PathVariable Long portfolioId) {
+    public List<Position> getPositions(@PathVariable Long portfolioId) {
+        return getIndexedPositions(portfolioId).values()
+                .stream()
+                .sorted(comparing(Position::getSecurityCode))
+                .collect(Collectors.toList());
+    }
 
+    @RequestMapping(value = "/api/portfolio/{portfolioId}/indexed-positions", method = GET)
+    @ApiOperation("Get the current positions for a given portfolio as a Map")
+    public Map<String, Position> getIndexedPositions(@PathVariable Long portfolioId) {
         return findById(portfolioId).calculatePositionsUsing(tradingDataAPI);
     }
 

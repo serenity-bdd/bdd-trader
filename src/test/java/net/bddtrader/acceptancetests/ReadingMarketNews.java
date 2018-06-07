@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 @RunWith(CucumberWithSerenity.class)
 @CucumberOptions(
         plugin = {"pretty"},
-        features = "src/test/resources/features/viewing_market_data/market_news.feature"
+        features = "src/test/resources/features/viewing_market_data/reading_market_news.feature"
 )
-public class MarketNews {
+public class ReadingMarketNews {
 }
