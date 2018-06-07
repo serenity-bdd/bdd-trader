@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableMap;
 import net.bddtrader.portfolios.dsl.InCurrency;
 import net.bddtrader.portfolios.dsl.SharesOf;
-import net.bddtrader.tradingdata.PriceReader;
-import net.bddtrader.tradingdata.TradingDataAPI;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -125,5 +123,16 @@ public class Trade {
 
     public Trade atPrice(Double marketPrice) {
         return new Trade(id, securityCode, timestamp, type, amount, (long) (marketPrice * 100), (long) (marketPrice  * 100 * amount));
+    }
+
+    @Override
+    public String toString() {
+        return "Trade{" +
+                "securityCode='" + securityCode + '\'' +
+                ", type=" + type +
+                ", amount=" + amount +
+                ", priceInCents=" + priceInCents +
+                ", totalInCents=" + totalInCents +
+                '}';
     }
 }
