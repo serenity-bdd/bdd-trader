@@ -1,5 +1,9 @@
 = Serenity Screenplay with REST Exercises
 
+These exercises demonstrate how to use Serenity Screenplay with a REST API.
+They start with an existing application, which you can find on the `master` branch.
+The solutions can be found on the `solutions` branch.
+
 Before doing these exercises, make sure you have the server running.
 You can launch the server by typing the following command in the project root directory:
 
