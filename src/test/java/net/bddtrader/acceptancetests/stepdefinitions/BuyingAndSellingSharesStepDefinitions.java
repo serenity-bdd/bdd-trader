@@ -34,7 +34,7 @@ public class BuyingAndSellingSharesStepDefinitions {
     }
 
 
-    @When("^(.*) (?:purchases|has purchased) (\\d+) (.*) shares at \\$(.*) each$")
+    @When("^(.*) (?:purchases|has purchased) (\\d+) (.*) shares? at \\$(.*) each$")
     public void purchases_shares(String traderName, int amount, String securityCode, double marketPrice) {
 
         Actor trader = OnStage.theActorCalled(traderName);
