@@ -9,6 +9,6 @@ Feature: Transaction history
     Then his transaction history should be the following:
       | securityCode | type    | amount | priceInCents | totalInCents |
       | CASH         | Deposit | 100000 | 1            | 100000       |
-      | CASH         | Sell    | 50000  | 1            | 50000.00     |
+      | CASH         | Sell    | 50000  | 1            | 50000        |
       | SNAP         | Buy     | 5      | 10000        | 50000        |
 
