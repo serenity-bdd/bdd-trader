@@ -18,7 +18,7 @@ public class ViewingPositionsStepDefinitons {
     @Given("the following market prices:")
     public void marketPrices(List<MarketPrice> marketPrices) {
         marketPrices.forEach(
-                marketPrice -> updateMarketPrice(marketPrice)
+                this::updateMarketPrice
         );
     }
 
