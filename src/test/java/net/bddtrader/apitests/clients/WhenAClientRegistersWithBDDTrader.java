@@ -5,10 +5,7 @@ import net.bddtrader.clients.ClientController;
 import net.bddtrader.clients.ClientDirectory;
 import net.bddtrader.config.TradingDataSource;
 import net.bddtrader.exceptions.MissingMandatoryFieldsException;
-import net.bddtrader.portfolios.Portfolio;
-import net.bddtrader.portfolios.PortfolioController;
-import net.bddtrader.portfolios.PortfolioDirectory;
-import net.bddtrader.portfolios.PortfolioNotFoundException;
+import net.bddtrader.portfolios.*;
 import net.bddtrader.tradingdata.TradingData;
 import org.junit.Before;
 import org.junit.Test;
@@ -96,13 +93,27 @@ public class WhenAClientRegistersWithBDDTrader {
         assertThat(clientPortfolio.getCash()).isEqualTo(1000.00);
     }
 
+    @Test
+    public void registeredClientsCanViewTheirPortfolioPositions() {
+
+        // GIVEN
+        Client sarahJane = controller.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
+
+        // WHEN
+        List<Position> positions = portfolioController.viewPortfolioPositionsForClient(sarahJane.getId());
+
+        // THEN
+        assertThat(positions).hasSize(1)
+                             .contains(Position.fromTrade(Trade.buy(100000L).sharesOf("CASH").at(1L).centsEach()));
+    }
+
     @Test(expected = PortfolioNotFoundException.class)
     public void shouldfailIfNoPortfolioCanBeFound() {
         // GIVEN
         Client sarahJane = controller.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail("sarah-jane@smith.com"));
 
         // WHEN
-        Portfolio clientPortfolio = portfolioController.viewPortfolioForClient(-1L);
+        portfolioController.viewPortfolioForClient(-1L);
     }
 
     @Test(expected = PortfolioNotFoundException.class)

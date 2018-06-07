@@ -48,7 +48,7 @@ public class ClientDirectory {
         }
 
         if (!missingMandatoryFields.isEmpty()) {
-            throw new MissingMandatoryFieldsException("Missing mandatory fields for client:"
+            throw new MissingMandatoryFieldsException("Missing mandatory fields for client: "
                                                       + Joiner.on(", ").join(missingMandatoryFields));
         }
     }

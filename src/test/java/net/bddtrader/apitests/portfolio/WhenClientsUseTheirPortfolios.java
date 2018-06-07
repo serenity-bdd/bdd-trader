@@ -3,11 +3,9 @@ package net.bddtrader.apitests.portfolio;
 import net.bddtrader.clients.Client;
 import net.bddtrader.clients.ClientController;
 import net.bddtrader.clients.ClientDirectory;
-import net.bddtrader.config.TraderConfiguration;
 import net.bddtrader.config.TradingDataSource;
 import net.bddtrader.portfolios.*;
 import net.bddtrader.tradingdata.TradingData;
-import net.bddtrader.tradingdata.TradingDataAPI;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,9 +14,7 @@ import java.util.Map;
 
 import static net.bddtrader.config.TradingDataSource.DEV;
 import static net.bddtrader.portfolios.Trade.buy;
-import static net.bddtrader.portfolios.Trade.sell;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 
 public class WhenClientsUseTheirPortfolios {
 
@@ -52,7 +48,7 @@ public class WhenClientsUseTheirPortfolios {
         portfolioController.placeOrder(portfolio.getPortfolioId(),
                                        buy(10L).sharesOf("AAPL").at(500L).centsEach());
 
-        Position applPosition = portfolioController.getPositions(portfolio.getPortfolioId()).get("AAPL");
+        Position applPosition = portfolioController.getIndexedPositions(portfolio.getPortfolioId()).get("AAPL");
 
         assertThat(applPosition.getAmount()).isEqualTo(10L);
     }
@@ -68,7 +64,7 @@ public class WhenClientsUseTheirPortfolios {
         portfolioController.placeOrder(portfolio.getPortfolioId(),
                 buy(1L).sharesOf("AAPL").atMarketPrice());
 
-        Position applPosition = portfolioController.getPositions(portfolio.getPortfolioId()).get("AAPL");
+        Position applPosition = portfolioController.getIndexedPositions(portfolio.getPortfolioId()).get("AAPL");
 
         assertThat(applPosition.getTotalPurchasePriceInDollars()).isEqualTo(50.00);
     }
@@ -86,7 +82,7 @@ public class WhenClientsUseTheirPortfolios {
         portfolioController.placeOrder(portfolio.getPortfolioId(),
                 buy(20L).sharesOf("IBM").at(500L).centsEach());
 
-        Map<String, Position> positions = portfolioController.getPositions(portfolio.getPortfolioId());
+        Map<String, Position> positions = portfolioController.getIndexedPositions(portfolio.getPortfolioId());
         Position applPosition = positions.get("AAPL");
         Position ibmPosition = positions.get("IBM");
         Position cashPosition = positions.get("CASH");
@@ -106,7 +102,7 @@ public class WhenClientsUseTheirPortfolios {
         portfolioController.placeOrder(portfolio.getPortfolioId(),
                 buy(10L).sharesOf("AAPL").at(10000L).centsEach());
 
-        Map<String, Position> positions = portfolioController.getPositions(portfolio.getPortfolioId());
+        Map<String, Position> positions = portfolioController.getIndexedPositions(portfolio.getPortfolioId());
         Position applPosition = positions.get("AAPL");
 
         assertThat(applPosition.getProfit()).isEqualTo(902.40);
@@ -122,7 +118,7 @@ public class WhenClientsUseTheirPortfolios {
         portfolioController.placeOrder(portfolio.getPortfolioId(),
                 buy(1L).sharesOf("AAPL").at(20000L).centsEach());
 
-        Map<String, Position> positions = portfolioController.getPositions(portfolio.getPortfolioId());
+        Map<String, Position> positions = portfolioController.getIndexedPositions(portfolio.getPortfolioId());
         Position applPosition = positions.get("AAPL");
 
         assertThat(applPosition.getProfit()).isEqualTo(-9.76);

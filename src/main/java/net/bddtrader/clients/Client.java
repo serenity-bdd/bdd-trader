@@ -62,4 +62,9 @@ public class Client {
             return new Client(null, firstName, lastName, email);
         }
     }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName;
+    }
 }

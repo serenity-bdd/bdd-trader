@@ -48,7 +48,7 @@ public class Portfolio {
     }
 
     private Long getCashInCents() {
-        return getCashPosition().orElse(Position.EMPTY_CASH_POSITION).getTotalValueInCents();
+        return (long) (getCashPosition().orElse(Position.EMPTY_CASH_POSITION).getTotalValueInDollars() * 100);
     }
 
     public void placeOrder(Trade trade) {

@@ -95,6 +95,10 @@ public class Trade {
         return timestamp;
     }
 
+    public static SharesOf of(TradeType type, Long numberOfShares) {
+       return new TradeBuilder(type, numberOfShares);
+    }
+
     public static SharesOf buy(Long numberOfShares) {
         return new TradeBuilder(Buy, numberOfShares);
     }
