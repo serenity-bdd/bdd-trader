@@ -2,15 +2,20 @@ package net.bddtrader.acceptancetests.stepdefinitions;
 
 import cucumber.api.java.en.Then;
 import net.bddtrader.acceptancetests.endpoints.BDDTraderEndPoints;
+import net.bddtrader.acceptancetests.questions.ThePortfolio;
+import net.bddtrader.acceptancetests.tasks.FetchTransactionHistory;
 import net.bddtrader.clients.Client;
 import net.bddtrader.portfolios.Trade;
 import net.serenitybdd.rest.SerenityRest;
 import net.serenitybdd.screenplay.rest.interactions.Get;
+import org.hamcrest.Matchers;
 
 import java.util.List;
 
+import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static net.serenitybdd.screenplay.actors.OnStage.theActorInTheSpotlight;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 public class TransactionHistoryStepDefinitions {
 
@@ -20,18 +25,21 @@ public class TransactionHistoryStepDefinitions {
         Client registeredClient = theActorInTheSpotlight().recall("registeredClient");
 
         theActorInTheSpotlight().attemptsTo(
-                Get.resource(BDDTraderEndPoints.ClientPortfolio.path())
-                   .with(request -> request.pathParam("clientId", registeredClient.getId()))
+                FetchTransactionHistory.forClient(registeredClient)
         );
 
-        assertThat(SerenityRest.lastResponse().statusCode()).isEqualTo(200);
+//        List<Trade> actualTransactionHistory = ThePortfolio.historyFor(registeredClient).answeredBy(theActorInTheSpotlight());
 
-        List<Trade> actualTransactionHistory = SerenityRest.lastResponse()
-                                                           .jsonPath()
-                                                           .getList("history", Trade.class);
+        theActorInTheSpotlight().should(
+                seeThat(ThePortfolio.history(), equalTo(transactionHistory))
 
-        assertThat(actualTransactionHistory).usingElementComparatorIgnoringFields("id","timestamp")
-                                            .containsExactlyElementsOf(transactionHistory);
+        );
+//        List<Trade> actualTransactionHistory = SerenityRest.lastResponse()
+//                                                           .jsonPath()
+//                                                           .getList("history", Trade.class);
+//
+//        assertThat(actualTransactionHistory).usingElementComparatorIgnoringFields("id","timestamp")
+//                                            .containsExactlyElementsOf(transactionHistory);
     }
 
 }

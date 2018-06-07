@@ -3,6 +3,9 @@ package net.bddtrader.acceptancetests.questions;
 import net.bddtrader.acceptancetests.endpoints.BDDTraderEndPoints;
 import net.bddtrader.clients.Client;
 import net.bddtrader.portfolios.Position;
+import net.bddtrader.portfolios.Trade;
+import net.serenitybdd.rest.SerenityRest;
+import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Question;
 import net.serenitybdd.screenplay.rest.questions.RestQuestionBuilder;
 
@@ -43,5 +46,9 @@ public class ThePortfolio {
                                                 .to(BDDTraderEndPoints.PortfolioProfit.path())
                                                 .withPathParameters("portfolioId", portfolioId)
                                                 .returning(response -> response.as(Double.class));
+    }
+
+    public static Question<List<Trade>> history() {
+        return actor -> SerenityRest.lastResponse().jsonPath().getList("history", Trade.class);
     }
 }
