@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableMap;
 import net.bddtrader.portfolios.dsl.InCurrency;
 import net.bddtrader.portfolios.dsl.SharesOf;
-import net.bddtrader.tradingdata.PriceReader;
-import net.bddtrader.tradingdata.TradingDataAPI;
 
 import java.time.LocalDateTime;
 import java.util.Map;
