@@ -1,0 +1,285 @@
+= Serenity Screenplay with REST Exercises
+
+These exercises demonstrate how to use Serenity Screenplay with a REST API.
+They start with an existing application, which you can find on the `master` branch.
+The solutions can be found on the `solutions` branch.
+
+Before doing these exercises, make sure you have the server running.
+You can launch the server by typing the following command in the project root directory:
+
+----
+mvn spring-boot:run -Ddata.source=DEV
+----
+
+== Exercise 1 - View the overall profit
+
+Add a new scenario to the `viewing_positions.feature` feature file:
+
+[source,gherkin]
+----
+Scenario: Making profits on multiple shares
+  Given Sarah Smith is a registered trader
+  When Sarah has purchased 5 SNAP shares at $100 each
+  And Sarah has purchased 10 IBM shares at $50 each
+  Then she should have the following positions:
+	| securityCode | amount | totalValueInDollars | profit |
+	| CASH         | 0      | 0.00                | 0.00   |
+	| SNAP         | 5      | 1000.00             | 500.00 |
+	| IBM          | 10     | 600.00              | 100.00 |
+----
+
+Now run the `ViewingPositions` test runner to check that it works.
+
+Next we want to see the overall profit for the portfolio.
+Modify the scenario we just added so that it also checks the overall profit
+
+[source,gherkin]
+----
+Scenario: Making profits on multiple shares
+  Given Sarah Smith is a registered trader
+  When Sarah has purchased 5 SNAP shares at $100 each
+  And Sarah has purchased 10 IBM shares at $50 each
+  Then she should have the following positions:
+	| securityCode | amount | totalValueInDollars | profit |
+	| CASH         | 0      | 0.00                | 0.00   |
+	| SNAP         | 5      | 1000.00             | 500.00 |
+	| IBM          | 10     | 600.00              | 100.00 |
+  And the overall profit should be $600
+----
+
+Add a step definition method for this last step in the `ViewingPositionsStepDefinitons` class:
+
+
+[source,java]
+----
+@And("^the overall profit should be \\$(.*)$")
+public void theOverallProfitShouldBe(double expectedProfit) throws Throwable {
+}
+----
+
+To check the overall profits in a portfolio, we can use the `/portfolio/1{portfolioId}/profit` endpoint.
+Add this endpoint to the `BDDTraderEndPoints` enum:
+
+[source,java]
+----
+PortfolioProfit("/portfolio/{portfolioId}/profit")
+----
+
+Implement the Step Definition so that the current actor sends a GET query to this endpoint:
+
+[source,java]
+----
+@And("^the overall profit should be \\$(.*)$")
+public void theOverallProfitShouldBe(double expectedProfit) throws Throwable {
+	Integer portfolioId = theActorInTheSpotlight().recall("clientPortfolioId"); // <1>
+
+	theActorInTheSpotlight().attemptsTo(
+			Get.resource(BDDTraderEndPoints.PortfolioProfit.path())	// <2>
+			   .with(request -> request.pathParam("portfolioId", portfolioId))
+	);
+
+	Double actualProfit = SerenityRest.lastResponse().as(Double.class); // <3>
+
+	assertThat(actualProfit).isEqualTo(expectedProfit);}
+----
+<1> We stored the client's portfolio id when they where registered
+<2> Perform a simple GET on the /portfolio/{portfolioId}/profit endpoint
+<3> Retrieve the response.
+
+== Exercise 2 - Using a Question object
+
+We can refactor this code to make it more reusable by using a Question class.
+
+[source,java]
+----
+public static Question<Double> overallProfitForPortfolioId(Long portfolioId) {
+	return new RestQuestionBuilder<Double>().about("Overall profit")
+											.to(BDDTraderEndPoints.PortfolioProfit.path())
+											.withPathParameters("portfolioId", portfolioId)
+											.returning(response -> response.as(Double.class));
+}
+----
+
+Then refactor the step definition method to use this Question class with the `seeThat()` expression:
+
+[source,java]
+-----
+@And("^the overall profit should be \\$(.*)$")
+public void theOverallProfitShouldBe(double expectedProfit) throws Throwable {
+
+	Integer portfolioId = theActorInTheSpotlight().recall("clientPortfolioId");
+
+	theActorInTheSpotlight().should(
+			seeThat(ThePortfolio.overallProfitForPortfolioId(portfolioId), is(equalTo(expectedProfit)))
+	);
+}
+-----
+
+== Exercise 3 - Variations on a theme
+
+Add some additional scenarios to explore variations.
+Some possible scenarios can include the following:
+
+[source,gherkin]
+-----
+Scenario: Making losses a single share
+   Given Sarah Smith is a registered trader
+   When Sarah has purchased 2 SNAP shares at $300 each
+   Then she should have the following positions:
+	 | securityCode | amount | totalValueInDollars | profit  |
+	 | CASH         | 40000  | 400.00              | 0.00    |
+	 | SNAP         | 2      | 400.00              | -200.00 |
+
+ Scenario: Making profits and losses across multiple share
+   Given Sarah Smith is a registered trader
+   When Sarah has purchased 2 SNAP shares at $300 each
+   And she has purchased 5 IBM shares at $50 each
+   Then she should have the following positions:
+	 | securityCode | amount | totalValueInDollars | profit  |
+	 | CASH         | 15000  | 150.00              | 0.00    |
+	 | SNAP         | 2      | 400.00              | -200.00 |
+	 | IBM          | 5      | 300.00              | 50.00  |
+   And the overall profit should be $-150.00
+-----
+
+== Exercise 4 - Transaction history
+
+In this exercise, we will write some scenarios to test the portfolio transaction history.
+
+The full transaction history for a portfolio can be seen in the "history" entry of the portfolio record.
+We can access this record at the `/client/{clientId}/portfolio` endpoint.
+
+Create a new feature file called `transation_history.feature` in the `src/test/resources/features` folder.
+
+[source,cucumber]
+-----
+Feature: Transaction history
+  In order to understand why I have no money left
+  As a trader
+  I want to see a historyu of all my transactions
+
+  Scenario: All transactions are recorded in the transaction history
+    Given Tim Trady is a registered trader
+    When Tim has purchased 5 SNAP shares at $100 each
+    Then his transaction history should be the following:
+      | securityCode | type    | amount | priceInCents | totalInCents |
+      | CASH         | Deposit | 100000 | 1            | 100000       |
+      | CASH         | Sell    | 50000  | 1            | 50000        |
+      | SNAP         | Buy     | 5      | 10000        | 50000        |
+-----
+
+Now create a test runner for this feature file:
+
+[source,java]
+----
+@RunWith(CucumberWithSerenity.class)
+@CucumberOptions(
+        plugin = {"pretty"},
+        features = "src/test/resources/features/portfolios/transaction_history.feature"
+)
+public class TransactionHistory {}
+----
+
+Next, create a new step definition class called `TransactionHistoryStepDefinitions` in the `stepdefinitions` package.
+This class will query the REST end point to retrieve the transaction history (a list of trades),
+and compare them with the expected history:
+
+[source,java]
+----
+@Then("^(?:his|her) transaction history should be the following:$")
+public void his_transaction_history_should_be_the_following(List<Trade> transactionHistory) throws Exception {
+
+	Client registeredClient = theActorInTheSpotlight().recall("registeredClient"); // <1>
+
+	theActorInTheSpotlight().attemptsTo( // <2>
+			Get.resource(BDDTraderEndPoints.ClientPortfolio.path())
+			   .with(request -> request.pathParam("clientId", registeredClient.getId()))
+	);
+
+	assertThat(SerenityRest.lastResponse().statusCode()).isEqualTo(200); // <3>
+
+	List<Trade> actualTransactionHistory = SerenityRest.lastResponse()
+													   .jsonPath()
+													   .getList("history", Trade.class);
+
+	assertThat(actualTransactionHistory).usingElementComparatorIgnoringFields("id","timestamp")
+										.containsExactlyElementsOf(transactionHistory); //<4>
+}
+----
+<1> Fetch the client ID
+<2> Get the portfolio record from the REST end point
+<3> Ensure that the query worked
+<4> Compare the transaction lists, ignoring irrelevant fields
+
+=== Exercise 5 - refactoring tasks and questions
+
+To make the code in this step definition more readable and more usable, let's extract some tasks and questions.
+
+Create a new `Task` class in the `tasks` package to fetch the transaction history for a given client:
+
+[source,java]
+----
+public class FetchTransactionHistory implements Task {
+
+    private final Long clientId;
+
+    public FetchTransactionHistory(Long clientId) {
+        this.clientId = clientId;
+    }
+
+    @Override
+    public <T extends Actor> void performAs(T actor) {
+
+        actor.attemptsTo(
+                Get.resource(BDDTraderEndPoints.ClientPortfolio.path())
+                        .with(request -> request.pathParam("clientId", clientId))
+        );
+
+        assertThat(SerenityRest.lastResponse().statusCode()).isEqualTo(200);
+    }
+
+    public static FetchTransactionHistory forClient(Client client) {
+        return instrumented(FetchTransactionHistory.class, client.getId());
+    }
+}
+----
+
+Next, add a method to the `ThePortfolio` class to return a new Question.
+This Question will return the transaction history that was retrieved in the previous task:
+
+[source,java]
+----
+public static Question<List<Trade>> history() {
+	return actor -> SerenityRest.lastResponse().jsonPath().getList("history", Trade.class);
+}
+----
+
+Finally, update the test to use the new classes:
+[source,java]
+----
+@Then("^(?:his|her) transaction history should be the following:$")
+public void his_transaction_history_should_be_the_following(List<Trade> transactionHistory) throws Exception {
+
+	Client registeredClient = theActorInTheSpotlight().recall("registeredClient");
+
+	theActorInTheSpotlight().attemptsTo(
+			FetchTransactionHistory.forClient(registeredClient) // <1>
+	);
+
+	theActorInTheSpotlight().should(
+			seeThat("the portfolio history is correctly retrieved",
+			        ThePortfolio.history(), // <2>
+					matchesTradesIn(transactionHistory)) // <3>
+	);
+}
+----
+<1> Fetch the transaction history
+<2> Compare with the expected history
+<3> Compare the transaction sets using a custom Hamcrest matcher
+
+=== Exercise 6 - living documentation
+
+Serenity generates rich living documentation for REST API tests.
+Stop the server and run `mvn verify` from the command line.
+When the tests are finished, open the Serenity report in `target/site/serenity/index.html`
+and see how the tests are rendered.

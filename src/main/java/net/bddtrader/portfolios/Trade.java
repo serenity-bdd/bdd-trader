@@ -124,4 +124,15 @@ public class Trade {
     public Trade atPrice(Double marketPrice) {
         return new Trade(id, securityCode, timestamp, type, amount, (long) (marketPrice * 100), (long) (marketPrice  * 100 * amount));
     }
+
+    @Override
+    public String toString() {
+        return "Trade{" +
+                "securityCode='" + securityCode + '\'' +
+                ", type=" + type +
+                ", amount=" + amount +
+                ", priceInCents=" + priceInCents +
+                ", totalInCents=" + totalInCents +
+                '}';
+    }
 }
