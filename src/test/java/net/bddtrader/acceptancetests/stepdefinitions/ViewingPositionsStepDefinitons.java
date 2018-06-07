@@ -14,9 +14,12 @@ import net.serenitybdd.screenplay.rest.interactions.Post;
 import java.util.List;
 import java.util.Map;
 
+import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static net.serenitybdd.screenplay.actors.OnStage.theActorCalled;
 import static net.serenitybdd.screenplay.actors.OnStage.theActorInTheSpotlight;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 public class ViewingPositionsStepDefinitons {
 
@@ -42,14 +45,8 @@ public class ViewingPositionsStepDefinitons {
 
         Integer portfolioId = theActorInTheSpotlight().recall("clientPortfolioId");
 
-        theActorInTheSpotlight().attemptsTo(
-                Get.resource(BDDTraderEndPoints.PortfolioProfit.path())
-                   .with(request -> request.pathParam("portfolioId", portfolioId)
-                                           .header("Content-Type", "application/json"))
+        theActorInTheSpotlight().should(
+                seeThat(ThePortfolio.overallProfitForPortfolioId(portfolioId), is(equalTo(expectedProfit)))
         );
-
-        Double actualProfit = SerenityRest.lastResponse().as(Double.class);
-
-        assertThat(actualProfit).isEqualTo(expectedProfit);
     }
 }

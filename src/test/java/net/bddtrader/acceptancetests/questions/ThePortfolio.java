@@ -38,10 +38,10 @@ public class ThePortfolio {
 
     }
 
-    public static Question<Double> overallProfitForPortfolioId(Long portfolioId) {
+    public static Question<Double> overallProfitForPortfolioId(Integer portfolioId) {
         return new RestQuestionBuilder<Double>().about("Overall profit")
-                .to(BDDTraderEndPoints.PortfolioProfit.path())
-                .with(request -> request.pathParam("portfolioId",portfolioId))
-                .returning(response -> response.path("portfolioId"));
+                                                .to(BDDTraderEndPoints.PortfolioProfit.path())
+                                                .withPathParameters("portfolioId", portfolioId)
+                                                .returning(response -> response.as(Double.class));
     }
 }
