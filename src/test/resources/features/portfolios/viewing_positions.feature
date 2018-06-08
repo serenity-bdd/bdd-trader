@@ -10,10 +10,9 @@ Feature: Viewing positions
     Given the following market prices:
       | securityCode | price |
       | SNAP         | 200   |
-      | IBM          | 50    |
+      | IBM          | 60    |
 
   Scenario: Making a profit on a single share
-
     Given Sarah Smith is a registered trader
     When Sarah has purchased 5 SNAP shares at $100 each
     Then she should have the following positions:
