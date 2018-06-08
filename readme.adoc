@@ -91,3 +91,7 @@ You can also view a list of the trading history of a portfolio using `/api/portf
 === Swagger REST Documentation
 
 When the application is running, you can see the REST API documentation at http://localhost:8080/swagger-ui.html
+
+=== Tutorial
+
+Continue learning with the **link:exercises.adoc[tutorial]**
