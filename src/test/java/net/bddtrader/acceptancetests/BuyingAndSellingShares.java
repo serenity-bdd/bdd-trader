@@ -13,6 +13,7 @@ import java.util.List;
 @RunWith(CucumberWithSerenity.class)
 @CucumberOptions(
         plugin = {"pretty"},
+        format = {"json:target/cucumber-report-composite.json"},
         features = "src/test/resources/features/portfolios/buying_and_selling_shares.feature"
 )
 public class BuyingAndSellingShares {}

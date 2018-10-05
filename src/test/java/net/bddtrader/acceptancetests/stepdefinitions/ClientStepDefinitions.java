@@ -7,6 +7,7 @@ import cucumber.api.java.en.When;
 import net.bddtrader.acceptancetests.questions.ThePortfolio;
 import net.bddtrader.acceptancetests.tasks.RegisterWithBDDTrader;
 import net.bddtrader.clients.Client;
+import net.serenitybdd.rest.SerenityRest;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.actors.OnStage;
 import net.serenitybdd.screenplay.rest.abiities.CallAnApi;
@@ -35,6 +36,7 @@ public class ClientStepDefinitions {
 
     @When("^the trader (?:attempts to register|registers) with BDD Trader$")
     public void the_trader_attempts_to_register_with_BDD_Trader() {
+
         tim.attemptsTo(
                 RegisterWithBDDTrader.asANewClient(client)
         );

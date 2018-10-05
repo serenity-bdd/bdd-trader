@@ -18,9 +18,9 @@
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <serenity.version>1.9.20</serenity.version>
-        <serenity.maven.version>1.9.20</serenity.maven.version>
-        <serenity.cucumber.version>1.9.8</serenity.cucumber.version>
+        <serenity.version>2.0.4</serenity.version>
+        <serenity.maven.version>2.0.4</serenity.maven.version>
+        <serenity.cucumber.version>1.9.15</serenity.cucumber.version>
         <jacoco.version>0.8.1</jacoco.version>
         <encoding>UTF-8</encoding>
         <tags></tags>
@@ -278,6 +278,13 @@
                 <configuration>
                     <tags>${tags}</tags>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.serenity-bdd</groupId>
+                        <artifactId>serenity-core</artifactId>
+                        <version>${serenity.version}</version>
+                    </dependency>
+                </dependencies>
                 <executions>
                     <execution>
                         <id>serenity-reports</id>
@@ -290,4 +297,75 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>parallel</id>
+
+            <build>
+                <plugins>
+
+                    <plugin>
+                        <groupId>com.github.temyers</groupId>
+                        <artifactId>cucumber-jvm-parallel-plugin</artifactId>
+                        <version>4.0.0</version>
+                        <executions>
+                            <execution>
+                                <id>generateRunners</id>
+                                <phase>generate-test-sources</phase>
+                                <goals>
+                                    <goal>generateRunners</goal>
+                                </goals>
+                                <configuration>
+                                    <glue>
+                                        <package>net.bddtrader</package>
+                                    </glue>
+                                    <featuresDirectory>src/test/resources/features/</featuresDirectory>
+                                    <cucumberOutputDir>target/cucumber-parallel</cucumberOutputDir>
+
+                                    <strict>true</strict>
+                                    <!-- Generate TestNG runners instead of JUnit ones. -->
+                                    <useTestNG>false</useTestNG>
+                                    <!-- The naming scheme to use for the generated test classes. One
+                                      of 'simple' or 'feature-title' -->
+                                    <namingScheme>pattern</namingScheme>
+                                    <!-- The class naming pattern to use. Only required/used if naming
+                                      scheme is 'pattern'. -->
+                                    <namingPattern>Parallel{c}CT</namingPattern>
+                                    <!-- One of [SCENARIO, FEATURE]. SCENARIO generates one runner per
+                                      scenario. FEATURE generates a runner per feature. -->
+                                    <parallelScheme>FEATURE</parallelScheme>
+                                    <!-- Specify a custom template for the generated sources (this is a path relative to the project base directory) -->
+                                    <customVmTemplate>src/test/resources/cucumber-symch-junit-runner.vm</customVmTemplate>
+                                    <packageName>net.bddtrader</packageName>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>2.20</version>
+                        <configuration>
+                            <includes>
+                                <include>**/*CT.java</include>
+                            </includes>
+                            <systemPropertyVariables>
+                                <webdriver.base.url>${webdriver.base.url}</webdriver.base.url>
+                            </systemPropertyVariables>
+                            <parallel>classes</parallel>
+                            <threadCount>${parallel.tests}</threadCount>
+                            <forkCount>${parallel.tests}</forkCount>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

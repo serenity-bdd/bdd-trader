@@ -9,3 +9,4 @@ Feature: Market news
     Given Tim is interested in Apple
     When Tim views the news about AAPL
     Then Tim should only see articles related to AAPL
+
