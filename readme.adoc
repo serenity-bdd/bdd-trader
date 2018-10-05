@@ -36,7 +36,7 @@ The first time you run this it may take some time to download the dependencies.
 You can run the application from the command line by running:
 
 ----
-mvn springboot:run
+mvn spring-boot:run
 ----
 
 or, to run the application using live market data, you can run
