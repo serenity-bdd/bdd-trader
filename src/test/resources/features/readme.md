@@ -6,7 +6,3 @@ It is made up of two layers:
   * A set of REST APIs built using Spring Boot
   
 Real-time trade data is obtained from the IEX API (https://iextrading.com/developer/)
-
-Key capabilities include:
-
-  * [Viewing Market Data](viewing_market_data)

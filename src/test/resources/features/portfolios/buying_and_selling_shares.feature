@@ -7,6 +7,10 @@ Feature: Buying and selling shares
   All traders start with $1000 in cash in their portfolio
   CASH amounts are recorded in cents, so 50000 represents $500
 
+  Key capabilities include the ability to buy and sell shares, e.g.
+
+  {Scenario} Buying and selling shares
+
   Scenario: Buying shares
 
     Given Tom Smith is a registered trader
