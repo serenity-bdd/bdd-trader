@@ -18,9 +18,9 @@
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <serenity.version>2.0.4</serenity.version>
-        <serenity.maven.version>2.0.4</serenity.maven.version>
-        <serenity.cucumber.version>1.9.15</serenity.cucumber.version>
+        <serenity.version>2.0.7</serenity.version>
+        <serenity.maven.version>2.0.7</serenity.maven.version>
+        <serenity.cucumber.version>1.9.18</serenity.cucumber.version>
         <jacoco.version>0.8.1</jacoco.version>
         <encoding>UTF-8</encoding>
         <tags></tags>
@@ -206,6 +206,7 @@
                 <configuration>
                     <includes>
                         <include>**/acceptancetests/*.java</include>
+                        <include>**/apitests/*.java</include>
                     </includes>
                     <systemPropertyVariables>
                         <webdriver.base.url>${webdriver.base.url}</webdriver.base.url>
