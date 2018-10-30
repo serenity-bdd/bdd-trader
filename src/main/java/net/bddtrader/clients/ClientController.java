@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import net.bddtrader.portfolios.PortfolioController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,8 +13,7 @@ import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 /**
  * Clients register with the application by providing their first and last name.
@@ -53,6 +53,28 @@ public class ClientController {
         return client.map(
                 clientFound   -> new ResponseEntity<>(clientFound, OK))
                 .orElseGet(() -> new ResponseEntity<>(NOT_FOUND));
+    }
+
+    @RequestMapping(value = "/api/client/{clientId}", method = PUT)
+    @ApiOperation("Update the details of a given client")
+    public ResponseEntity<Client> updateClientById(@PathVariable Long clientId, @RequestBody Client newClient) {
+
+        Optional<Client> client = clientDirectory.findClientById(clientId);
+
+        if (client.isPresent()) {
+            clientDirectory.updateClient(clientId, newClient);
+            return new ResponseEntity<>(newClient, OK);
+        } else {
+            return new ResponseEntity<>(NOT_FOUND);
+        }
+    }
+
+    @RequestMapping(value = "/api/client/{clientId}", method = DELETE)
+    @ApiOperation("Delete a client")
+    public ResponseEntity<Client> deleteClientById(@PathVariable Long clientId) {
+
+        clientDirectory.deleteClientById(clientId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @RequestMapping(value = "/api/clients", method = GET)

@@ -27,11 +27,20 @@ public class ClientDirectory {
         ensureMandatoryFieldsArePresentFor(newClient);
 
         Client registeredClient = new Client(clientCount.getAndIncrement(),
-                                             newClient.getFirstName(),
-                                             newClient.getLastName(),
-                                             newClient.getEmail());
+                newClient.getFirstName(),
+                newClient.getLastName(),
+                newClient.getEmail());
         registeredClients.add(registeredClient);
         return registeredClient;
+    }
+
+    public void updateClient(Long clientId, Client client) {
+        deleteClientById(clientId);
+        Client updatedClient = new Client(clientId,
+                client.getFirstName(),
+                client.getLastName(),
+                client.getEmail());
+        registeredClients.add(updatedClient);
     }
 
     private void ensureMandatoryFieldsArePresentFor(Client newClient) {
@@ -49,7 +58,7 @@ public class ClientDirectory {
 
         if (!missingMandatoryFields.isEmpty()) {
             throw new MissingMandatoryFieldsException("Missing mandatory fields for client: "
-                                                      + Joiner.on(", ").join(missingMandatoryFields));
+                    + Joiner.on(", ").join(missingMandatoryFields));
         }
     }
 
@@ -57,6 +66,13 @@ public class ClientDirectory {
         return registeredClients.stream()
                 .filter( client -> client.getId() == id)
                 .findFirst();
+    }
+
+    public void deleteClientById(long id) {
+        Optional<Client> existingClient = findClientById(id);
+        existingClient.ifPresent(
+                registeredClients::remove
+        );
     }
 
     public List<Client> findAll() {
