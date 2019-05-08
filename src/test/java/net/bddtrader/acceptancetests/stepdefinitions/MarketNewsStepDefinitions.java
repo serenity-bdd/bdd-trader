@@ -5,8 +5,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import net.bddtrader.acceptancetests.tasks.ViewNewsAbout;
 import net.serenitybdd.screenplay.Actor;
-import net.serenitybdd.screenplay.rest.abiities.CallAnApi;
-import org.assertj.core.api.Assertions;
+import net.serenitybdd.screenplay.rest.abilities.CallAnApi;
 
 import java.util.List;
 

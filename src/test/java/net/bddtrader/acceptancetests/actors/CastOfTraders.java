@@ -4,7 +4,7 @@ import net.bddtrader.acceptancetests.stepdefinitions.TestEnvironment;
 import net.serenitybdd.screenplay.Ability;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.actors.Cast;
-import net.serenitybdd.screenplay.rest.abiities.CallAnApi;
+import net.serenitybdd.screenplay.rest.abilities.CallAnApi;
 import net.thucydides.core.util.EnvironmentVariables;
 
 /**
