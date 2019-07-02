@@ -46,10 +46,4 @@ public class WhenReadingTheNews {
                 newsItem -> {assertThat(newsItem.getRelated()).contains("AAPL");}
         );
     }
-
-    @Test(expected = HttpClientErrorException.class)
-    public void shouldReportResourceNotFoundForUnknownStocks() {
-        newsController.newsFor("UNKNOWN-STOCK");
-    }
-
 }

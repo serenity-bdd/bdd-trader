@@ -21,13 +21,7 @@ public class IEXtradingAPI implements TradingDataAPI {
 
     @Override
     public List<NewsItem> getNewsFor(String stockid) {
-
-        ResponseEntity<List<NewsItem>> response =
-                restTemplate.exchange("https://api.iextrading.com/1.0/stock/{stockid}/news",
-                        GET, null,
-                        new ParameterizedTypeReference<List<NewsItem>>() {},
-                        stockid);
-        return response.getBody();
+        return new StaticAPI().getNewsFor(stockid);
     }
 
     @Override

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -33,7 +34,12 @@ public class StaticAPI implements TradingDataAPI {
     public List<NewsItem> getNewsFor(String stockid) {
         File jsonInput = testDataFrom("news.json");
         try {
-            return mapper.readValue(jsonInput, new TypeReference<List<NewsItem>>(){});
+            List<NewsItem> items = mapper.readValue(jsonInput, new TypeReference<List<NewsItem>>(){});
+            return items.stream()
+                    .filter( item -> item.getRelated().contains(stockid))
+                    .collect(Collectors.toList());
+
+
         } catch (IOException e) {
             e.printStackTrace();
             return new ArrayList<>();
