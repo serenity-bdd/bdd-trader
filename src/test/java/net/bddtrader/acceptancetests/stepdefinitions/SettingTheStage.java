@@ -1,7 +1,10 @@
 package net.bddtrader.acceptancetests.stepdefinitions;
 
-import cucumber.api.java.Before;
+import io.cucumber.java.Before;
+import io.cucumber.java.ParameterType;
 import net.bddtrader.acceptancetests.actors.CastOfTraders;
+import net.serenitybdd.screenplay.Actor;
+import net.serenitybdd.screenplay.actors.OnStage;
 import net.thucydides.core.util.EnvironmentVariables;
 
 import static net.serenitybdd.screenplay.actors.OnStage.setTheStage;
@@ -22,6 +25,11 @@ public class SettingTheStage {
     @Before
     public void set_the_stage() {
         setTheStage(new CastOfTraders(environmentVariables));
+    }
+
+    @ParameterType(".*")
+    public Actor actor(String name) {
+        return OnStage.theActorCalled(name);
     }
 
 }

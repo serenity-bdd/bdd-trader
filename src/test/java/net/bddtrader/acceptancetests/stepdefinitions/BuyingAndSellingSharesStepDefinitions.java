@@ -1,9 +1,12 @@
 package net.bddtrader.acceptancetests.stepdefinitions;
 
-import cucumber.api.DataTable;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.cucumber.datatable.DataTable;
+import io.cucumber.java.DataTableType;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import net.bddtrader.acceptancetests.model.PositionSummary;
 import net.bddtrader.acceptancetests.questions.ThePortfolio;
 import net.bddtrader.acceptancetests.tasks.PlaceOrder;
 import net.bddtrader.acceptancetests.tasks.RegisterWithBDDTrader;
@@ -11,8 +14,12 @@ import net.bddtrader.clients.Client;
 import net.bddtrader.portfolios.Position;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.actors.OnStage;
+import org.assertj.core.api.SoftAssertions;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static net.bddtrader.portfolios.TradeType.Buy;
 import static net.bddtrader.portfolios.TradeType.Sell;
@@ -21,15 +28,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class BuyingAndSellingSharesStepDefinitions {
 
 
-    @Given("(\\w+) (\\w+) is a registered trader$")
+    @Given("{word} {word} is a registered trader")
     public void a_registered_trader(String firstName, String lastName) {
 
         Actor trader = OnStage.theActorCalled(firstName);
 
         trader.attemptsTo(
                 RegisterWithBDDTrader.asANewClient(Client.withFirstName(firstName)
-                                                         .andLastName(lastName)
-                                                         .andEmail(firstName + "@" + lastName + ".com"))
+                        .andLastName(lastName)
+                        .andEmail(firstName + "@" + lastName + ".com"))
         );
     }
 
@@ -43,9 +50,9 @@ public class BuyingAndSellingSharesStepDefinitions {
 
         trader.attemptsTo(
                 PlaceOrder.to(Buy, amount)
-                          .sharesOf(securityCode)
-                          .atPriceOf(marketPrice)
-                          .forClient(registeredClient)
+                        .sharesOf(securityCode)
+                        .atPriceOf(marketPrice)
+                        .forClient(registeredClient)
         );
     }
 
@@ -64,24 +71,60 @@ public class BuyingAndSellingSharesStepDefinitions {
         );
     }
 
-    @Then("^(.*) should have the following positions:$")
-    public void should_have_the_following_positions(String traderName, DataTable expectedPositionTable) {
+    /*
+      | securityCode | amount | totalValueInDollars | profit |
+      | CASH         | 50000  | 500.00              | 0.00   |
+      | SNAP         | 5      | 1000.00             | 500.00 |
+     */
 
-        String[] relevantFields = relevantFieldsInTable(expectedPositionTable);
-        List<Position> expectedPositions = expectedPositionTable.asList(Position.class);
-        Actor trader = OnStage.theActorCalled(traderName);
+    @DataTableType
+    public Position positionFrom(Map<String, String> values) {
+
+        return new Position(
+                values.get("securityCode"),
+                Long.parseLong(Optional.ofNullable(values.get("amount")).orElse("0")),
+                values.get("totalPurchasePriceInDollars") != null ? Double.parseDouble(values.get("totalPurchasePriceInDollars")) : null,
+                values.get("marketValueInDollars") != null ? Double.parseDouble(values.get("marketValueInDollars")) : null,
+                values.get("totalValueInDollars") != null ? Double.parseDouble(values.get("totalValueInDollars")) : null,
+                values.get("profit") != null ? Double.parseDouble(values.get("profit")) : null
+        );
+    }
+
+    @DataTableType
+    public PositionSummary positionSummaryFrom(Map<String, String> values) {
+
+        return new PositionSummary(
+                values.get("securityCode"),
+                Long.parseLong(values.get("amount"))
+        );
+    }
+
+
+
+    @Then("{actor} should have the following position details:")
+    public void should_have_the_following_position_details(Actor trader, List<Position> expectedPositions) {
 
         Client registeredClient = trader.recall("registeredClient");
 
         List<Position> clientPositons = trader.asksFor(ThePortfolio.positionsForClient(registeredClient));
 
         assertThat(clientPositons)
-                .usingElementComparatorOnFields(relevantFields)
+                .usingElementComparatorOnFields("securityCode","amount","totalValueInDollars","profit")
                 .containsAll(expectedPositions);
     }
 
-    private String[] relevantFieldsInTable(DataTable expectedPositionTable) {
-        return expectedPositionTable.topCells().toArray(new String[]{});
+    @Then("{actor} should have the following positions:")
+    public void should_have_the_following_positions(Actor trader, List<Position> expectedPositions) {
+
+        Client registeredClient = trader.recall("registeredClient");
+
+        List<Position> clientPositons = trader.asksFor(ThePortfolio.positionsForClient(registeredClient));
+
+        assertThat(clientPositons)
+                .usingElementComparatorOnFields("securityCode","amount")
+                .containsAll(expectedPositions);
     }
+
+
 
 }

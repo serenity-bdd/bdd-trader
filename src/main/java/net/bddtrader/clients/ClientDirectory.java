@@ -46,13 +46,13 @@ public class ClientDirectory {
     private void ensureMandatoryFieldsArePresentFor(Client newClient) {
 
         List<String> missingMandatoryFields = new ArrayList<>();
-        if (isEmpty(newClient.getFirstName().trim())) {
+        if (isEmpty(newClient.getFirstName())) {
             missingMandatoryFields.add("firstName");
         }
-        if (isEmpty(newClient.getLastName().trim())) {
+        if (isEmpty(newClient.getLastName())) {
             missingMandatoryFields.add("lastName");
         }
-        if (isEmpty(newClient.getEmail().trim())) {
+        if (isEmpty(newClient.getEmail())) {
             missingMandatoryFields.add("email");
         }
 

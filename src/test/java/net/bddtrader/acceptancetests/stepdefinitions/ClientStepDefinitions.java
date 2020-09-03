@@ -1,8 +1,9 @@
 package net.bddtrader.acceptancetests.stepdefinitions;
 
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
+import io.cucumber.java.DataTableType;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import net.bddtrader.acceptancetests.questions.ThePortfolio;
 import net.bddtrader.acceptancetests.tasks.RegisterWithBDDTrader;
 import net.bddtrader.clients.Client;
@@ -11,6 +12,7 @@ import net.serenitybdd.screenplay.actors.OnStage;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
+import java.util.Map;
 
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static net.serenitybdd.screenplay.rest.questions.ResponseConsequence.seeThatResponse;
@@ -22,7 +24,15 @@ public class ClientStepDefinitions {
     private Actor tim;
     private Client client;
 
-    @Given("^a trader with the following details:$")
+    @DataTableType
+    public Client clientFrom(Map<String, String> values) {
+        return new Client(null,
+                values.get("firstName"),
+                values.get("lastName"),
+                values.get("email"));
+    }
+
+    @Given("a trader with the following details:")
     public void a_trader_with_the_following_details(List<Client> clients) {
         tim = OnStage.theActorCalled("Tim the trader");
         client = clients.get(0); // We are only interested in a single client
@@ -37,7 +47,7 @@ public class ClientStepDefinitions {
         );
     }
 
-    @Then("^the registration should be rejected with the message '(.*)'$")
+    @Then("the registration should be rejected with the message {string}")
     public void the_registration_should_be_rejected_with_the_message(String message) {
         tim.should(
                 seeThatResponse("An appropriate error message was returned",

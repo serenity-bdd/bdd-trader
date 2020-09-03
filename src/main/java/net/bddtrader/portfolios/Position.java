@@ -2,7 +2,8 @@ package net.bddtrader.portfolios;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Objects;
+
+import java.util.Objects;
 
 import static net.bddtrader.portfolios.MoneyCalculations.dollarsFromCents;
 import static net.bddtrader.portfolios.MoneyCalculations.roundCents;
@@ -12,18 +13,18 @@ public class Position {
 
     private final String securityCode;
     private final Long amount;
-    private final double totalValueInDollars;
-    private final double marketValueInDollars;
-    private final double totalPurchasePriceInDollars;
-    private final double profit;
+    private final Double totalValueInDollars;
+    private final Double marketValueInDollars;
+    private final Double totalPurchasePriceInDollars;
+    private final Double profit;
 
     @JsonCreator
     public Position(@JsonProperty("securityCode") String securityCode,
                     @JsonProperty("amount") Long amount,
-                    @JsonProperty("totalPurchasePriceInDollars") double totalPurchasePriceInDollars,
-                    @JsonProperty("marketValueInDollars") double marketValueInDollars,
-                    @JsonProperty("totalValueInDollars") double totalValueInDollars,
-                    @JsonProperty("profit") double profit) {
+                    @JsonProperty("totalPurchasePriceInDollars") Double totalPurchasePriceInDollars,
+                    @JsonProperty("marketValueInDollars") Double marketValueInDollars,
+                    @JsonProperty("totalValueInDollars") Double totalValueInDollars,
+                    @JsonProperty("profit") Double profit) {
         this.securityCode = securityCode;
         this.amount = amount;
         this.totalValueInDollars = totalValueInDollars;
@@ -106,17 +107,17 @@ public class Position {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Position position = (Position) o;
-        return Double.compare(position.totalValueInDollars, totalValueInDollars) == 0 &&
-                Double.compare(position.marketValueInDollars, marketValueInDollars) == 0 &&
-                Double.compare(position.totalPurchasePriceInDollars, totalPurchasePriceInDollars) == 0 &&
-                Double.compare(position.profit, profit) == 0 &&
-                Objects.equal(securityCode, position.securityCode) &&
-                Objects.equal(amount, position.amount);
+        return securityCode.equals(position.securityCode) &&
+                amount.equals(position.amount) &&
+                Objects.equals(totalValueInDollars, position.totalValueInDollars) &&
+                Objects.equals(marketValueInDollars, position.marketValueInDollars) &&
+                Objects.equals(totalPurchasePriceInDollars, position.totalPurchasePriceInDollars) &&
+                Objects.equals(profit, position.profit);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(securityCode, amount, totalValueInDollars, marketValueInDollars, totalPurchasePriceInDollars, profit);
+        return Objects.hash(securityCode, amount, totalValueInDollars, marketValueInDollars, totalPurchasePriceInDollars, profit);
     }
 
     @Override

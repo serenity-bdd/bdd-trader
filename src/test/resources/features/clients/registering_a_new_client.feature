@@ -2,7 +2,7 @@ Feature: Registering a new client
 
   New clients are given a portfolio with $1000 to start with.
 
-  Name and email is mandartory, e.g:
+  Name and email is mandatory, e.g:
 
   {Examples} New clients need to provide their full name and email address
 
