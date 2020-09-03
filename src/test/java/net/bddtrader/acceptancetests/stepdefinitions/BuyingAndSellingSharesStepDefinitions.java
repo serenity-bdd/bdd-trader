@@ -71,12 +71,6 @@ public class BuyingAndSellingSharesStepDefinitions {
         );
     }
 
-    /*
-      | securityCode | amount | totalValueInDollars | profit |
-      | CASH         | 50000  | 500.00              | 0.00   |
-      | SNAP         | 5      | 1000.00             | 500.00 |
-     */
-
     @DataTableType
     public Position positionFrom(Map<String, String> values) {
 
