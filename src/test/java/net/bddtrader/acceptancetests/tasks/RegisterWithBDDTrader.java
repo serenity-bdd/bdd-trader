@@ -17,10 +17,7 @@ public class RegisterWithBDDTrader {
                 actor -> {
                     actor.attemptsTo(
                             Post.to(RegisterClient.path())
-                                    .with(request -> {
-                                        return request.header("Content-Type", "application/json")
-                                                .body(client);
-                                    })
+                                    .with(request -> request.header("Content-Type", "application/json").body(client))
                     );
 
                     if (SerenityRest.lastResponse().statusCode() == 200) {

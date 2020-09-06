@@ -17,7 +17,7 @@ import static net.serenitybdd.screenplay.Tasks.instrumented;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public class  PlaceOrder implements Task {
+public class PlaceOrder implements Task {
 
     private final TradeType buyOrSell;
     private final Long quantity;

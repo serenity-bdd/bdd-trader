@@ -1,4 +1,3 @@
-@current
 Feature: Buying and selling shares
 
   In order to make my investments grow
