@@ -47,12 +47,11 @@ public class ClientStepDefinitions {
         );
     }
 
-    @Then("the registration should be rejected with the message {string}")
-    public void the_registration_should_be_rejected_with_the_message(String message) {
+    @Then("the registration should be rejected")
+    public void the_registration_should_be_rejected() {
         tim.should(
-                seeThatResponse("An appropriate error message was returned",
-                        response -> response.statusCode(HttpStatus.PRECONDITION_FAILED.value())
-                                .body("message", equalTo(message)))
+                seeThatResponse("An appropriate error code was returned",
+                        response -> response.statusCode(HttpStatus.PRECONDITION_FAILED.value()))
         );
     }
 

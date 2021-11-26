@@ -53,14 +53,6 @@ public class WhenRequestingThePrice {
         assertThat(controller.getPopularStocks()).isNotEmpty();
     }
 
-
-    @Test
-    public void shouldFindPopularStocksFromIEX() {
-        controller = new StockController(IEX);
-        // If the markets are closed, this can return an empty list
-        assertThat(controller.getPopularStocks()).isNotNull();
-    }
-
     @Test
     public void shouldAllowPricesToBeUpdatedProgrammaticallyInDev() {
 

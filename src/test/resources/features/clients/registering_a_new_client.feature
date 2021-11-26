@@ -18,9 +18,9 @@ Feature: Registering a new client
       | firstName   | lastName   | email   |
       | <firstName> | <lastName> | <email> |
     When the trader attempts to register with BDD Trader
-    Then the registration should be rejected with the message '<message>'
+    Then the registration should be rejected
     Examples:
-      | firstName | lastName | email         | message                                        |
-      | Joe       |          | joe@smith.com | Missing mandatory fields for client: lastName  |
-      |           | Smith    | joe@smith.com | Missing mandatory fields for client: firstName |
-      | Joe       | Smith    |               | Missing mandatory fields for client: email     |
+      | firstName | lastName | email         |
+      | Joe       |          | joe@smith.com |
+      |           | Smith    | joe@smith.com |
+      | Joe       | Smith    |               |

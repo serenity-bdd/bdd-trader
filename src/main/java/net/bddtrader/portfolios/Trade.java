@@ -2,7 +2,6 @@ package net.bddtrader.portfolios;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.ImmutableMap;
 import net.bddtrader.portfolios.dsl.InCurrency;
 import net.bddtrader.portfolios.dsl.SharesOf;
 
@@ -31,7 +30,7 @@ public class Trade {
     private final Long priceInCents;
     private final Long totalInCents;
 
-    private static final Map<TradeType, TradeType> OPPOSITE_TRADETYPE = ImmutableMap.of(
+    private static final Map<TradeType, TradeType> OPPOSITE_TRADETYPE = Map.of(
             Buy, Sell,
             Sell, Buy,
             Deposit, Withdraw,

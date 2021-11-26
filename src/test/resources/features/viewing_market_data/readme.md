@@ -1,4 +1,4 @@
-# Viewing Market Data
+Viewing Market Data
 
 Traders need to be informed about the state of the market. 
 This can be related to technical information about a particular share,

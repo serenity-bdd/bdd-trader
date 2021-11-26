@@ -3,7 +3,6 @@ package net.bddtrader.clients;
 import com.google.common.base.Joiner;
 import net.bddtrader.exceptions.MissingMandatoryFieldsException;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
