@@ -5,7 +5,7 @@ These exercises are used as part of the upcoming **BDD for REST APIs with Cucumb
 in the https://serenitydojo.teachable.com/p/the-programme[Serenity Dojo Online Training Programme].
 
 == Setting up your environment
-To run this tutorial, you will need https://www.oracle.com/java/technologies/javase/jdk15-archive-downloads.html[JDK 15] or higher,
+To run this tutorial, you will need http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[JDK 8] or higher,
 https://maven.apache.org[Maven] and https://git-scm.com/downloads[Git].
 
 You will also need a modern Java IDE such as https://www.jetbrains.com/idea/download[IntelliJ IDE]
@@ -29,36 +29,21 @@ This project uses a Maven build. To run the tests and build an executable jar, r
 mvn install
 ----
 
-This project contains three modules:
-
-- **bddtrader-app** (containing the Spring Boot application)
-- **bddtrader-domain** (containing the domain model used by the application and the tests)
-- **bddtrader-test** (containing the Serenity-BDD tests)
-
-
-
 The first time you run this it may take some time to download the dependencies.
 
 === Running the application
 
-You can run the application from the command line by changing the path to *bddtrader-app* module and running:
+You can run the application from the command line by running:
 
 ----
 mvn spring-boot:run
-----
-
-or, to run the application using live market data, you can run
-
-----
-mvn spring-boot:run -Ddata.source=IEX
 ----
 
 To check that the application is running correctly, open http://localhost:8080/api/status in your browser.
 
 === Running the tests
 
-You can run the full test suite by running `mvn verify`  from the *bddtrader-test* module.
-Before running the tests the application must be started as described above.
+You can run the full test suite by running `mvn verify`.
 
 === The application domain
 
@@ -100,7 +85,3 @@ You can also view a list of the trading history of a portfolio using `/api/portf
 === Swagger REST Documentation
 
 When the application is running, you can see the REST API documentation at http://localhost:8080/swagger-ui.html
-
-=== Tutorial
-
-Continue learning with the **link:exercises.adoc[tutorial]**
