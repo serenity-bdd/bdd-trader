@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 @RunWith(CucumberWithSerenity.class)
 @CucumberOptions(
         plugin = {"pretty"},
-        glue = "net.bddtrader",
+        glue = "net.bddtrader.acceptancetests.stepdefinitions",
         features = "src/test/resources/features"
 )
 public class CucumberTestSuite {}

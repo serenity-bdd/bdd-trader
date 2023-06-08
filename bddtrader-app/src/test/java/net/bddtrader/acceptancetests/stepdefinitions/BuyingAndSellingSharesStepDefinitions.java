@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-
 import static net.bddtrader.portfolios.TradeType.Buy;
 import static net.bddtrader.portfolios.TradeType.Sell;
 import static org.assertj.core.api.Assertions.assertThat;

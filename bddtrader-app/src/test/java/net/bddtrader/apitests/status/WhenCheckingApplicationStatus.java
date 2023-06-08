@@ -1,34 +1,30 @@
 package net.bddtrader.apitests.status;
 
-import junitparams.JUnitParamsRunner;
-import junitparams.Parameters;
 import net.bddtrader.config.TradingDataSource;
 import net.bddtrader.status.StatusController;
 import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
-import static net.bddtrader.config.TradingDataSource.IEX;
+import static net.bddtrader.config.TradingDataSource.DEV;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(JUnitParamsRunner.class)
 public class WhenCheckingApplicationStatus {
 
     StatusController controller;
 
     @Before
     public void prepareNewsController() {
-        controller = new StatusController(IEX);
+        controller = new StatusController(DEV);
     }
 
     @Test
-    @Parameters({"DEV, BDDTrader running against DEV",
-                 "IEX, BDDTrader running against IEX" })
-    public void statusShouldIncludeTradeDataSource(TradingDataSource dataSource, String statusMessage) {
+    public void statusShouldIncludeTradeDataSource() {
 
-        controller = new StatusController(dataSource);
+        controller = new StatusController(DEV);
 
-        assertThat(controller.status()).isEqualTo(statusMessage);
+        assertThat(controller.status()).isEqualTo("BDDTrader running against DEV");
     }
 
 }

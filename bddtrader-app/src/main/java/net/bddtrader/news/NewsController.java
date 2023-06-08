@@ -1,7 +1,7 @@
 package net.bddtrader.news;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import net.bddtrader.config.TraderConfiguration;
 import net.bddtrader.config.TradingDataSource;
 import net.bddtrader.tradingdata.TradingData;
@@ -15,7 +15,7 @@ import java.util.List;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
-@Api("news")
+@Tag(name = "news")
 public class NewsController {
 
     private final TradingDataSource tradingDataSource;
@@ -29,8 +29,8 @@ public class NewsController {
     }
 
     @RequestMapping(value="/api/stock/{stockid}/news", method = GET)
-    @ApiOperation(value = "Get news articles about a given stock",
-                  notes="Use 'market' to get market-wide news.")
+    @Operation(summary = "Get news articles about a given stock",
+            description="Use 'market' to get market-wide news.")
     public List<NewsItem> newsFor(@PathVariable String stockid) {
 
         return TradingData.instanceFor(tradingDataSource).getNewsFor(stockid);

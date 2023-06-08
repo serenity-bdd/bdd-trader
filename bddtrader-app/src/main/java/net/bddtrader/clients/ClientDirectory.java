@@ -1,6 +1,5 @@
 package net.bddtrader.clients;
 
-import com.google.common.base.Joiner;
 import net.bddtrader.exceptions.MissingMandatoryFieldsException;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 import static org.springframework.util.StringUtils.isEmpty;
 
@@ -57,7 +57,7 @@ public class ClientDirectory {
 
         if (!missingMandatoryFields.isEmpty()) {
             throw new MissingMandatoryFieldsException("Missing mandatory fields for client: "
-                    + Joiner.on(", ").join(missingMandatoryFields));
+                    + missingMandatoryFields.stream().collect(Collectors.joining(", ")));
         }
     }
 

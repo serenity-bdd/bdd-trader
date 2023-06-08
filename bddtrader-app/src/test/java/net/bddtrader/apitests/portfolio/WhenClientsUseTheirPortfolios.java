@@ -6,8 +6,8 @@ import net.bddtrader.clients.ClientDirectory;
 import net.bddtrader.config.TradingDataSource;
 import net.bddtrader.portfolios.*;
 import net.bddtrader.tradingdata.TradingData;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +23,7 @@ public class WhenClientsUseTheirPortfolios {
     PortfolioController portfolioController = new PortfolioController(TradingDataSource.DEV, portfolioDirectory);
     ClientController clientController = new ClientController(clientDirectory, portfolioController);
 
-    @Before
+    @BeforeEach
     public void resetTestData() {
         TradingData.instanceFor(DEV).reset();
     }

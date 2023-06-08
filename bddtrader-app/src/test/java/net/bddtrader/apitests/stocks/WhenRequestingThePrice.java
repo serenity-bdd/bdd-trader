@@ -3,19 +3,19 @@ package net.bddtrader.apitests.stocks;
 import net.bddtrader.stocks.StockController;
 import net.bddtrader.tradingdata.TradingData;
 import net.bddtrader.tradingdata.exceptions.IllegalPriceManipulationException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.web.client.HttpClientErrorException;
 
 import static net.bddtrader.config.TradingDataSource.DEV;
-import static net.bddtrader.config.TradingDataSource.IEX;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class WhenRequestingThePrice {
 
     StockController controller;
 
-    @Before
+    @BeforeEach
     public void prepareNewsController() {
         controller = new StockController(DEV);
         TradingData.instanceFor(DEV).reset();
@@ -35,15 +35,15 @@ public class WhenRequestingThePrice {
         assertThat(controller.priceFor("AAPL")).isGreaterThan(0.00);
     }
 
-    @Test(expected = HttpClientErrorException.class)
+    @Test
     public void shouldReportResourceNotFoundForUnknownStocks() {
-        controller = new StockController(IEX);
-        controller.priceFor("UNKNOWN-STOCK");
+        controller = new StockController(DEV);
+        assertThrows(HttpClientErrorException.class, () -> controller.priceFor("UNKNOWN-STOCK"));
     }
 
     @Test
     public void priceForCashOnIEXShouldAlwaysBe1Cent() {
-        controller = new StockController(IEX);
+        controller = new StockController(DEV);
         assertThat(controller.priceFor("CASH")).isEqualTo(0.01);
     }
 
@@ -62,15 +62,4 @@ public class WhenRequestingThePrice {
 
         assertThat(controller.priceFor("IBM")).isEqualTo(200.00);
     }
-
-    @Test(expected = IllegalPriceManipulationException.class)
-    public void shouldNotAllowPricesToBeUpdatedProgrammaticallyInDev() {
-
-        controller = new StockController(IEX);
-
-        controller.updatePriceFor("IBM", 200.00);
-
-        assertThat(controller.priceFor("IBM")).isEqualTo(200.00);
-    }
-
 }

@@ -1,7 +1,7 @@
 package net.bddtrader.status;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import net.bddtrader.config.TraderConfiguration;
 import net.bddtrader.config.TradingDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
-@Api("status")
+@Tag(name = "status")
 public class StatusController {
 
     private final TradingDataSource tradingDataSource;
@@ -26,7 +26,7 @@ public class StatusController {
     }
 
     @RequestMapping(value = "/api/status", method = GET)
-    @ApiOperation("Check the status of the API")
+    @Operation(summary = "Check the status of the API")
     public String status() {
         return "BDDTrader running against " + tradingDataSource;
     }

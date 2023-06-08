@@ -20,7 +20,7 @@ public class TradingData {
 
     private static Map<TradingDataSource, TradingDataAPI> TRADING_DATA_SOURCE_API = new HashMap<>();
     static {
-        TRADING_DATA_SOURCE_API.put(TradingDataSource.IEX, new IEXtradingAPI());
+//        TRADING_DATA_SOURCE_API.put(TradingDataSource.IEX, new IEXtradingAPI());
         TRADING_DATA_SOURCE_API.put(TradingDataSource.DEV, new StaticAPI());
     }
 

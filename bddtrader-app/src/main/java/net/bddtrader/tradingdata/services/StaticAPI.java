@@ -6,16 +6,12 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import net.bddtrader.news.NewsItem;
 import net.bddtrader.portfolios.Trade;
 import net.bddtrader.tradingdata.TradingDataAPI;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
-
-import static com.google.common.collect.Lists.newArrayList;
 
 public class StaticAPI implements TradingDataAPI {
 
@@ -62,12 +58,15 @@ public class StaticAPI implements TradingDataAPI {
         if (stockid.equals(Trade.CASH_ACCOUNT)) {
             return 0.01;
         }
+        if (!stockPrices.containsKey(stockid)) {
+            throw new HttpClientErrorException(org.springframework.http.HttpStatus.NOT_FOUND, "Stock not found");
+        }
         return stockPrices.getOrDefault(stockid, 100.00);
     }
 
     @Override
     public List<String> getPopularStocks() {
-        return newArrayList(loadSamplePrices().keySet());
+        return new ArrayList<>(loadSamplePrices().keySet());
     }
 
     @Override

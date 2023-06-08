@@ -8,7 +8,6 @@ import org.junit.Test;
 import java.util.List;
 
 import static net.bddtrader.config.TradingDataSource.DEV;
-import static net.bddtrader.config.TradingDataSource.IEX;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class WhenReadingTheNews {
@@ -17,7 +16,7 @@ public class WhenReadingTheNews {
 
     @Before
     public void prepareNewsController() {
-        newsController = new NewsController(IEX);
+        newsController = new NewsController(DEV);
     }
 
     @Test

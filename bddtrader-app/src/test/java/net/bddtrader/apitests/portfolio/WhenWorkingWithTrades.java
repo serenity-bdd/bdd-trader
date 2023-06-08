@@ -1,7 +1,7 @@
 package net.bddtrader.apitests.portfolio;
 
 import net.bddtrader.portfolios.Trade;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static net.bddtrader.portfolios.TradeType.*;
 import static org.assertj.core.api.Assertions.assertThat;

@@ -6,18 +6,13 @@ import net.bddtrader.clients.ClientDirectory;
 import net.bddtrader.config.TradingDataSource;
 import net.bddtrader.portfolios.*;
 import net.bddtrader.tradingdata.TradingData;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
-import java.util.Arrays;
-import java.util.Collection;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static net.bddtrader.config.TradingDataSource.DEV;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(Parameterized.class)
 public class WhenDifferentTypesOfClientsRegister {
 
     ClientDirectory clientDirectory = new ClientDirectory();
@@ -25,31 +20,14 @@ public class WhenDifferentTypesOfClientsRegister {
     PortfolioController portfolioController = new PortfolioController(TradingDataSource.DEV, portfolioDirectory);
     ClientController controller = new ClientController(clientDirectory, portfolioController);
 
-    public WhenDifferentTypesOfClientsRegister(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    @Parameterized.Parameters
-    public static Collection<Object[]> testData(){
-        return Arrays.asList(new Object[][]{
-                {"Sarah-Jane",     "Smith"},
-                {"Bill",  "Oddie"},
-                {"Tim", "Brooke-Taylor"},
-        });
-    }
-
-    private final String firstName;
-    private final String lastName;
-
-
-    @Before
+    @BeforeEach
     public void resetTestData() {
         TradingData.instanceFor(DEV).reset();
     }
 
-    @Test
-    public void aClientRegisters() {
+    @ParameterizedTest
+    @CsvSource(value = {"Sarah-Jane,Smith", "Bill,Oddie", "Tim,Brooke-Taylor"})
+    public void aClientRegisters(String firstName, String lastName) {
 
         // WHEN
         Client registeredClient = controller.register(Client.withFirstName(firstName).andLastName(lastName).andEmail("sarah-jane@smith.com"));

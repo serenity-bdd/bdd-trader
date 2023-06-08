@@ -6,22 +6,23 @@ import net.bddtrader.portfolios.Portfolio;
 import net.bddtrader.portfolios.PortfolioWithPositions;
 import net.bddtrader.tradingdata.PriceReader;
 import net.bddtrader.tradingdata.TradingData;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static net.bddtrader.config.TradingDataSource.DEV;
 import static net.bddtrader.portfolios.Trade.buy;
 import static net.bddtrader.portfolios.Trade.deposit;
 import static net.bddtrader.portfolios.Trade.sell;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class WhenCreatingAPortfolio {
 
-    Portfolio portfolio = new Portfolio(1L,1L);
+    Portfolio portfolio = new Portfolio(1L, 1L);
 
-    @Before
+    @BeforeEach
     public void resetTestData() {
         TradingData.instanceFor(DEV).reset();
     }
@@ -63,20 +64,18 @@ public class WhenCreatingAPortfolio {
         assertThat(portfolio.calculateProfitUsing(priceReader)).isEqualTo(500.00);
     }
 
-    @Test(expected = InsufficientFundsException.class)
+    @Test
     public void buyerMustHaveEnoughCashToMakeAPurchase() {
-        portfolio.placeOrder(buy(20000L).sharesOf("IBM").at(100L).centsEach());
+        assertThrows(InsufficientFundsException.class, () ->
+                portfolio.placeOrder(buy(20000L).sharesOf("IBM").at(100L).centsEach())
+        );
+
     }
 
     @Test
     public void failedTransactionsShouldNotAffectBalance() {
-
-        try {
-            portfolio.placeOrder(buy(20000L).sharesOf("IBM").at(100L).centsEach());
-
-        } catch (InsufficientFundsException expectedException) {
-            assertThat(portfolio.getCash()).isEqualTo(1000.00);
-        }
+        assertThrows(InsufficientFundsException.class, () -> portfolio.placeOrder(buy(20000L).sharesOf("IBM").at(100L).centsEach()));
+        assertThat(portfolio.getCash()).isEqualTo(1000.00);
     }
 
     @Test
@@ -92,6 +91,4 @@ public class WhenCreatingAPortfolio {
         assertThat(portfolioWithPositions.getMarketPositions().get("CASH").getTotalValueInDollars()).isEqualTo(2000.00);
         assertThat(portfolioWithPositions.getMarketPositions().get("CASH").getMarketValueInDollars()).isEqualTo(0.01);
     }
-
-
 }
