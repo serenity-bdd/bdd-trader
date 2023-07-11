@@ -31,11 +31,8 @@ mvn install
 
 This project contains three modules:
 
-- **bddtrader-app** (containing the Spring Boot application)
+- **bddtrader-app** (containing the Spring Boot application and the tests)
 - **bddtrader-domain** (containing the domain model used by the application and the tests)
-- **bddtrader-test** (containing the Serenity-BDD tests)
-
-
 
 The first time you run this it may take some time to download the dependencies.
 
@@ -45,12 +42,6 @@ You can run the application from the command line by changing the path to *bddtr
 
 ----
 mvn spring-boot:run
-----
-
-or, to run the application using live market data, you can run
-
-----
-mvn spring-boot:run -Ddata.source=IEX
 ----
 
 To check that the application is running correctly, open http://localhost:8080/api/status in your browser.

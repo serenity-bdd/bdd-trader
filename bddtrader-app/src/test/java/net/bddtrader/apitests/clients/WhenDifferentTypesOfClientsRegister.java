@@ -36,5 +36,15 @@ public class WhenDifferentTypesOfClientsRegister {
         assertThat(registeredClient).isEqualToComparingFieldByField(registeredClient);
     }
 
+    @ParameterizedTest
+    @CsvSource(value = {"李,小龍", "Louis,de Funès"})
+    public void aClientRegistersWithAForeignName(String firstName, String lastName) {
+
+        // WHEN
+        Client registeredClient = controller.register(Client.withFirstName(firstName).andLastName(lastName).andEmail("sarah-jane@smith.com"));
+
+        // THEN
+        assertThat(registeredClient).isEqualToComparingFieldByField(registeredClient);
+    }
 
 }

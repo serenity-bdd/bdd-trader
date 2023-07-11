@@ -1,0 +1,146 @@
+{
+	"variables": [],
+	"info": {
+		"name": "BDDTrader",
+		"_postman_id": "c0b72841-49c4-4a4e-6ac5-16ec55a5f3c6",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register client",
+			"request": {
+				"url": "http://localhost:8080/api/client",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"firstName\":\"Jane\",\n\"lastName\":\"Smith\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "View client portfolio",
+			"request": {
+				"url": "http://localhost:8080/api/client/1/portfolio",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "stockprice",
+			"request": {
+				"url": "http://localhost:8080/stock/AAPL/price",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "update stock price",
+			"request": {
+				"url": "http://localhost:8080/stock/AAPL/price",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "See popular stocks",
+			"request": {
+				"url": "http://localhost:8080/api/stock/popular",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Place a historical order",
+			"request": {
+				"url": "http://localhost:8080/api/portfolio/1/order",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \n\t\"securityCode\": \"AAPL\",\n\t\"type\" : \"Buy\",\n\t\"amount\" : 10,\n\t\"priceInCents\" : 5000\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Place a new order",
+			"request": {
+				"url": "http://localhost:8080/api/portfolio/1/order",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \n\t\"securityCode\": \"AAPL\",\n\t\"type\" : \"Buy\",\n\t\"amount\" : 10,\n\t\"priceInCents\" : 5000\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Deposit cash",
+			"request": {
+				"url": "http://localhost:8080/api/portfolio/1/order",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \n\t\"securityCode\": \"AAPL\",\n\t\"type\" : \"Buy\",\n\t\"amount\" : 10,\n\t\"priceInCents\" : 5000\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Show portfolio profits",
+			"request": {
+				"url": "http://localhost:8080/api/portfolio/1/profit",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
