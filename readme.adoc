@@ -1,11 +1,10 @@
 = BDD Trader application
 
 The BDD Trader application demonstrates BDD and test automation techniques using Serenity BDD and the Screenplay pattern.
-These exercises are used as part of the upcoming **BDD for REST APIs with Cucumber and Serenity Screenplay** course
-in the https://serenitydojo.teachable.com/p/the-programme[Serenity Dojo Online Training Programme].
+These exercises are used as part of the  **https://expansion.serenity-dojo.com/courses/testing-rest-apis-with-serenity-bdd[Testing REST APIs with Serenity BDD and RestAssured]** online course , and as part of the https://www.serenity-dojo.com[Serenity Dojo Online Training Programme].
 
 == Setting up your environment
-To run this tutorial, you will need https://www.oracle.com/java/technologies/javase/jdk15-archive-downloads.html[JDK 15] or higher,
+To run this tutorial, you will need https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html[JDK 17] or higher,
 https://maven.apache.org[Maven] and https://git-scm.com/downloads[Git].
 
 You will also need a modern Java IDE such as https://www.jetbrains.com/idea/download[IntelliJ IDE]
