@@ -33,4 +33,4 @@ jobs:
       uses: JamesIves/github-pages-deploy-action@4.1.1
       with:
         branch: gh-pages # The branch the action should deploy to.
-        folder: target/site/serenity # The folder the action should deploy.
+        folder: bdd-trader-app/target/site/serenity # The folder the action should deploy.
