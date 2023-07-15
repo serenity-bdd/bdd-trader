@@ -1,0 +1,6 @@
+"Story","Title","Result","Date","Stability","Duration (s)"
+"Registering a new client","New clients need to provide their full name and email address","SUCCESS","2023-07-15T18:57:20.281215302Z[Etc/UTC]","0.0","0.28"
+"Buying and selling shares","Buying shares","SUCCESS","2023-07-15T18:57:20.577557782Z[Etc/UTC]","0.0","0.33"
+"Buying and selling shares","Buying and selling shares","SUCCESS","2023-07-15T18:57:20.912698484Z[Etc/UTC]","0.0","0.29"
+"Viewing positions","Making a profit on a single share","SUCCESS","2023-07-15T18:57:21.216233872Z[Etc/UTC]","0.0","0.21"
+"Market news","Viewing news about a particular share","SUCCESS","2023-07-15T18:57:21.431270298Z[Etc/UTC]","0.0","0.09"
