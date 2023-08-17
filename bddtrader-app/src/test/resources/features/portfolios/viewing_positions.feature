@@ -1,3 +1,4 @@
+@trading
 Feature: Viewing positions
   In order to understand how my investments are doing
   As a trader

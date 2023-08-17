@@ -12,7 +12,6 @@
     <modules>
         <module>bddtrader-app</module>
         <module>bddtrader-domain</module>
-<!--        <module>bddtrader-test</module>-->
     </modules>
 
     <properties>
@@ -28,16 +27,7 @@
             <version>3.24.2</version>
             <scope>test</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>ch.qos.logback</groupId>-->
-<!--            <artifactId>logback-core</artifactId>-->
-<!--            <version>1.4.7</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>ch.qos.logback</groupId>-->
-<!--            <artifactId>logback-classic</artifactId>-->
-<!--            <version>1.4.7</version>-->
-<!--        </dependency>-->
+
         <!-- JUNIT 5 DEPENDENCY-->
         <dependency>
             <groupId>org.junit.platform</groupId>
@@ -48,7 +38,7 @@
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-suite</artifactId>
-            <version>1.9.3</version>
+            <version>${junit-platform-suite-api.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

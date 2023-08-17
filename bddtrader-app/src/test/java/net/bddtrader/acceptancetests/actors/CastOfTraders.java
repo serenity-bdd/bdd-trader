@@ -5,7 +5,7 @@ import net.serenitybdd.screenplay.Ability;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.actors.Cast;
 import net.serenitybdd.screenplay.rest.abilities.CallAnApi;
-import net.thucydides.core.util.EnvironmentVariables;
+import net.thucydides.model.util.EnvironmentVariables;
 
 /**
  * The Cast is a factory we use to provide actors for our scenarios.

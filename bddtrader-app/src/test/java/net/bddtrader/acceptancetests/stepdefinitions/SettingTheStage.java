@@ -5,7 +5,7 @@ import io.cucumber.java.ParameterType;
 import net.bddtrader.acceptancetests.actors.CastOfTraders;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.actors.OnStage;
-import net.thucydides.core.util.EnvironmentVariables;
+import net.thucydides.model.util.EnvironmentVariables;
 
 import static net.serenitybdd.screenplay.actors.OnStage.setTheStage;
 

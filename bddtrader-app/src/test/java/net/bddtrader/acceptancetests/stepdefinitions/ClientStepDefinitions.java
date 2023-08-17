@@ -52,7 +52,6 @@ public class ClientStepDefinitions {
     public void the_registration_should_be_rejected() {
         tim.should(
                 seeThatResponse("An appropriate error code was returned",
-                        //response -> response.statusCode(HttpStatus.PRECONDITION_FAILED.value()))
                         response -> response.statusCode(PRECONDITION_FAILED))
         );
     }
@@ -63,7 +62,8 @@ public class ClientStepDefinitions {
         Client registeredClient = tim.recall("registeredClient");
 
         tim.should(
-                seeThat(ThePortfolio.cashBalanceFor(registeredClient), is(equalTo(expectedBalance)))
+                seeThat(ThePortfolio.cashBalanceFor(registeredClient),
+                        is(equalTo(expectedBalance)))
         );
     }
 }

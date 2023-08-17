@@ -9,6 +9,7 @@ import net.bddtrader.portfolios.*;
 import net.bddtrader.tradingdata.TradingData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -32,6 +33,7 @@ public class WhenAClientRegistersWithBDDTrader {
     }
 
     @Test
+    @Tag("client")
     public void aClientRegistersByProvidingANameAPasswordAndAnEmail() {
 
         // WHEN
@@ -42,6 +44,7 @@ public class WhenAClientRegistersWithBDDTrader {
     }
 
     @Test
+    @Tag("client")
     public void firstNameIsMandatory() {
         Assertions.assertThrows(MissingMandatoryFieldsException.class, () -> {
             controller.register(controller.register(Client.withFirstName("").andLastName("Smith").andEmail("sarah-jane@smith.com")));
@@ -49,6 +52,7 @@ public class WhenAClientRegistersWithBDDTrader {
     }
 
     @Test
+    @Tag("client")
     public void lastNameIsMandatory() {
         Assertions.assertThrows(MissingMandatoryFieldsException.class, () -> {
             controller.register(controller.register(Client.withFirstName("Sarah-Jane").andLastName("").andEmail("sarah-jane@smith.com")));
@@ -56,6 +60,7 @@ public class WhenAClientRegistersWithBDDTrader {
     }
 
     @Test
+    @Tag("client")
     public void emailIsMandatory() {
         Assertions.assertThrows(MissingMandatoryFieldsException.class, () -> {
             controller.register(Client.withFirstName("Sarah-Jane").andLastName("Smith").andEmail(""));
@@ -63,6 +68,7 @@ public class WhenAClientRegistersWithBDDTrader {
     }
 
     @Test
+    @Tag("client")
     public void registeredClientsAreStoredInTheClientDirectory() {
 
         // WHEN
@@ -75,6 +81,7 @@ public class WhenAClientRegistersWithBDDTrader {
     }
 
     @Test
+    @Tag("client")
     public void registeredClientsCanBeRetrievedById() {
 
         // GIVEN
@@ -88,6 +95,7 @@ public class WhenAClientRegistersWithBDDTrader {
     }
 
     @Test
+    @Tag("client")
     public void registeredClientsAreGivenAPortfolio() {
 
         // GIVEN

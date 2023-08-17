@@ -1,6 +1,6 @@
 package net.bddtrader.acceptancetests.stepdefinitions;
 
-import net.thucydides.core.util.EnvironmentVariables;
+import net.thucydides.model.util.EnvironmentVariables;
 
 public class TestEnvironment {
 
