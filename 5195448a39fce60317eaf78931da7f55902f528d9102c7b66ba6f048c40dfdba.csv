@@ -1,2 +1,3 @@
 "Story","Title","Result","Date","Stability","Duration (s)"
-"Registering a new client","New clients are given a portfolio with $1000 to start with","SUCCESS","2023-07-17T12:32:50.006014016Z[Etc/UTC]","0.0","4.4"
+"Registering a new client","New clients need to provide their full name and email address","SUCCESS","2023-08-17T10:06:52.026948813Z[Etc/UTC]","0.0","5.55"
+"Registering a new client","New clients are given a portfolio with $1000 to start with","SUCCESS","2023-08-17T10:06:56.454680981Z[Etc/UTC]","0.0","1.11"
