@@ -19,7 +19,7 @@
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <encoding>UTF-8</encoding>
-        <serenity.version>4.0.0-beta-2</serenity.version>
+        <serenity.version>4.0.1</serenity.version>
     </properties>
 
     <dependencies>
