@@ -62,7 +62,7 @@
 <link type="text/css" media="screen" href="css/screen.css" rel="Stylesheet"/>
 <!--CHART.JS-->
 <script src="chartjs/chart.js"></script>
-<script src="chartjs/chartjs-plugin-datalabels@2.0.0"></script>
+<script src="chartjs/chartjs-plugin-datalabels@2.0.0.min.js"></script>
 <script src="chartjs/patternomaly.min.js"></script>
 <script>
     // Register the plugin to all charts:
@@ -154,7 +154,7 @@
             $("#requirements-tabs").tabs();
             $("#test-tabs").tabs();
 
-            var requirementsTree = [];
+            var requirementsTree = [{"text":"Clients","type":"capability","href":"b41b8df4fac2f59f642da023ed2d2e38b2d6111c19f01a5f68af00deef984787.html","nodes":[{"text":"Registering a new client","type":"feature","href":"96875978bb2f3cccd968df33fffb36579b652d0cd84a3ea3c6b4d699d9fde07e.html","nodes":[],"selectable":false,"tags":["\u003ca href\u003d\u0027##beforetable\u0027\u003e\u003ci class\u003d\u0027bi bi-check-circle-fill success-icon \u0027 title\u003d\u0027SUCCESS\u0027\u003e\u003c/i\u003e\u003c/a\u003e","\u003cspan class\u003d\u0027feature-count\u0027\u003e2 scenarios\u003c/span\u003e, \u003cspan class\u003d\u0027feature-count\u0027\u003e4 test cases\u003c/span\u003e"]}],"selectable":false,"tags":["\u003ca href\u003d\u0027##beforetable\u0027\u003e\u003ci class\u003d\u0027bi bi-check-circle-fill success-icon \u0027 title\u003d\u0027SUCCESS\u0027\u003e\u003c/i\u003e\u003c/a\u003e","\u003cspan class\u003d\u0027feature-count\u0027\u003e1 feature\u003c/span\u003e "]},{"text":"Portfolios","type":"capability","href":"d283b7b7c8c31d72bc414790ba238a2455e22f476830389c51cf79d09282aa85.html","nodes":[{"text":"Buying and selling shares","type":"feature","href":"77205032b72f461eabdea285f649e7e0432449dde8042e2cbe7cdb210271de7f.html","nodes":[],"selectable":false,"tags":["\u003ca href\u003d\u0027##beforetable\u0027\u003e\u003ci class\u003d\u0027bi bi-check-circle-fill success-icon \u0027 title\u003d\u0027SUCCESS\u0027\u003e\u003c/i\u003e\u003c/a\u003e","\u003cspan class\u003d\u0027feature-count\u0027\u003e2 scenarios\u003c/span\u003e, \u003cspan class\u003d\u0027feature-count\u0027\u003e2 test cases\u003c/span\u003e"]},{"text":"Viewing positions","type":"feature","href":"47a487c2c833176535373df4a774fcd80c5f78ec3254d6d8c2f5c58fe69a056e.html","nodes":[],"selectable":false,"tags":["\u003ca href\u003d\u0027##beforetable\u0027\u003e\u003ci class\u003d\u0027bi bi-check-circle-fill success-icon \u0027 title\u003d\u0027SUCCESS\u0027\u003e\u003c/i\u003e\u003c/a\u003e","\u003cspan class\u003d\u0027feature-count\u0027\u003e1 scenario\u003c/span\u003e, \u003cspan class\u003d\u0027feature-count\u0027\u003e1 test case\u003c/span\u003e"]}],"selectable":false,"tags":["\u003ca href\u003d\u0027##beforetable\u0027\u003e\u003ci class\u003d\u0027bi bi-check-circle-fill success-icon \u0027 title\u003d\u0027SUCCESS\u0027\u003e\u003c/i\u003e\u003c/a\u003e","\u003cspan class\u003d\u0027feature-count\u0027\u003e2 features\u003c/span\u003e "]},{"text":"Viewing Market Data","type":"capability","href":"361d9363f6a0907785ca8f6858212afd7d8458f6e4e50443936b8ef6c40a5ae4.html","nodes":[{"text":"Market news","type":"feature","href":"0f4341d7c9aa059a5b316c31222c4062466c367ce9255f4cc449cde332b678f6.html","nodes":[],"selectable":false,"tags":["\u003ca href\u003d\u0027##beforetable\u0027\u003e\u003ci class\u003d\u0027bi bi-check-circle-fill success-icon \u0027 title\u003d\u0027SUCCESS\u0027\u003e\u003c/i\u003e\u003c/a\u003e","\u003cspan class\u003d\u0027feature-count\u0027\u003e1 scenario\u003c/span\u003e, \u003cspan class\u003d\u0027feature-count\u0027\u003e1 test case\u003c/span\u003e"]}],"selectable":false,"tags":["\u003ca href\u003d\u0027##beforetable\u0027\u003e\u003ci class\u003d\u0027bi bi-check-circle-fill success-icon \u0027 title\u003d\u0027SUCCESS\u0027\u003e\u003c/i\u003e\u003c/a\u003e","\u003cspan class\u003d\u0027feature-count\u0027\u003e1 feature\u003c/span\u003e "]}];
 
             $('#tree').treeview({
                 data: requirementsTree,
@@ -219,8 +219,14 @@
         <li class="active">
             <a href="#"><i class="bi bi-journal-text"></i> Requirements</a>
         </li>
+        <li >
+            <a href="7ea0a5e2d679b9deeda9910ae4a9bcd3a281e0d908303a9e16e486103e98880c.html"><i class="bi bi-chat-text"></i> Capabilities</a>
+        </li>
+        <li >
+            <a href="576946480b52ad056d6f5bddf874399c83582ecf90963cc074a14c70580e7d9f.html"><i class="bi bi-chat-text"></i> Features</a>
+        </li>
     </ul>
-    <span class="date-and-time"><a href="build-info.html"><i class="bi bi-info-circle"></i></a> Report generated 01-09-2023 16:31</span>
+    <span class="date-and-time"><a href="build-info.html"><i class="bi bi-info-circle"></i></a> Report generated 15-08-2024 19:49</span>
     <br style="clear:left"/>
 </div>
 
@@ -236,7 +242,7 @@
                             <div class="requirements-overview panel panel-default">
                                 <div class="panel-body">
                                     <h1>BDD Trader application</h1>
-<p>The BDD Trader application allows users to create and follow a portfolio of shares.
+<p>The BDD Trader application allows users to create and follow a portfolio of shares.<br />
 It is made up of two layers:</p>
 <ul>
 <li>An AngularJS user interface</li>
@@ -302,41 +308,41 @@ It is made up of two layers:</p>
                     <td>
                         <i class="bi bi-flag-fill"></i> Tests Started
                     </td>
-                    <td>Sep 01, 2023 16:31:42</td>
+                    <td>Aug 15, 2024 19:49:39</td>
                 </tr>
                 <tr scope="row">
                     <td>
                         <i class="bi bi-stop-circle"></i> Tests
                         Finished
                     </td>
-                    <td>Sep 01, 2023 16:31:47</td>
+                    <td>Aug 15, 2024 19:49:43</td>
                 </tr>
                 <tr scope="row">
                     <td>
                         <i class="bi bi-stopwatch"></i> Total
                         Duration
                     </td>
-                    <td>5s</td>
+                    <td>3s</td>
                 </tr>
                 <tr scope="row">
                     <td>
                         <i class="bi bi-trophy"></i> Fastest Test
                     </td>
-                    <td>79ms</td>
+                    <td>54ms</td>
                 </tr>
                 <tr scope="row">
                     <td>
                         <i class="bi bi-skip-start"></i> Slowest
                         Test
                     </td>
-                    <td>5s</td>
+                    <td>3s</td>
                 </tr>
                 <tr scope="row">
                     <td>
                         <i class="bi bi-stopwatch"></i> Average
                         Execution Time
                     </td>
-                    <td>1s</td>
+                    <td>2s</td>
                 </tr>
                 <tr scope="row">
                     <td>
@@ -400,7 +406,7 @@ It is made up of two layers:</p>
                         <i class="bi bi-stopwatch"></i> Total
                         Duration
                     </td>
-                    <td>5s</td>
+                    <td>3s</td>
                 </tr>
                 <tr scope="row">
                     <td>
@@ -410,7 +416,7 @@ It is made up of two layers:</p>
                     <td>
                         <i class="bi bi-trophy"></i> Fastest Test
                     </td>
-                    <td>79ms</td>
+                    <td>54ms</td>
                 </tr>
                 <tr scope="row">
                     <td>
@@ -421,25 +427,25 @@ It is made up of two layers:</p>
                         <i class="bi bi-skip-start"></i> Slowest
                         Test
                     </td>
-                    <td>5s</td>
+                    <td>3s</td>
                 </tr>
                 <tr scope="row">
                     <td>
                         <i class="bi bi-flag-fill"></i> Tests Started
                     </td>
-                    <td>Sep 01, 2023 16:31:42</td>
+                    <td>Aug 15, 2024 19:49:39</td>
                     <td>
                         <i class="bi bi-stopwatch"></i> Average
                         Execution Time
                     </td>
-                    <td>1s</td>
+                    <td>2s</td>
                 </tr>
                 <tr scope="row">
                     <td>
                         <i class="bi bi-stop-circle"></i> Tests
                         Finished
                     </td>
-                    <td>Sep 01, 2023 16:31:47</td>
+                    <td>Aug 15, 2024 19:49:43</td>
                     <td>
                         <i class="bi bi-stopwatch-fill"></i> Total
                         Execution Time
@@ -456,7 +462,7 @@ It is made up of two layers:</p>
                                                     <table class="scenario-result-table table" id="scenario-results">
                                                         <thead>
                                                         <tr>
-                                                            <th>Feature</th>
+                                                            <th>feature</th>
                                                             <th class="test-name-column">Scenario</th>
                                                             <th>Context</th>
                                                             <th>Steps</th>
@@ -468,7 +474,7 @@ It is made up of two layers:</p>
                                                         <tbody>
                                                                 <tr class="scenario-result SUCCESS">
                                                                     <td>
-                                                                            <a href="#">Registering a new client</a>
+                                                                            <a href="96875978bb2f3cccd968df33fffb36579b652d0cd84a3ea3c6b4d699d9fde07e.html">Registering a new client</a>
                                                                     </td>
                                                                     <td>
                                                                         <i class="bi bi-table" title="Data Driven Scenario"> <a href="4e147ddcadce021df0f4da8e168517790014801fad49a35b662a22db220204fb.html">New clients need to provide their full name and email address</a>
@@ -479,83 +485,83 @@ It is made up of two layers:</p>
                                                                     <td><span style="display:none"></span>
                                                                     </td>
                                                                     <td>3</td>
-                                                                    <td>16:31:42</td>
-                                                                    <td>5s 536ms</td>
+                                                                    <td>19:49:39</td>
+                                                                    <td>3s 182ms</td>
                                                                     <td><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a> <span style="display:none">SUCCESS</span>
                                                                     </td>
                                                                 </tr>
                                                                 <tr class="scenario-result SUCCESS">
                                                                     <td>
-                                                                            <a href="#">Registering a new client</a>
+                                                                            <a href="96875978bb2f3cccd968df33fffb36579b652d0cd84a3ea3c6b4d699d9fde07e.html">Registering a new client</a>
                                                                     </td>
                                                                     <td>
-                                                                                <a href="7e6a6ece9d899a139956d9c54d2ff5765c9946e3ecebc07e0cda2b47b30760ed.html">New clients are given a portfolio with $1000 to start with</a>
+                                                                            <a href="7e6a6ece9d899a139956d9c54d2ff5765c9946e3ecebc07e0cda2b47b30760ed.html">New clients are given a portfolio with $1000 to start with</a>
                                                                     </td>
                                                                     <td><span style="display:none"></span>
                                                                     </td>
                                                                     <td>3</td>
-                                                                    <td>16:31:46</td>
-                                                                    <td>1s 165ms</td>
+                                                                    <td>19:49:41</td>
+                                                                    <td>1s 595ms</td>
                                                                     <td><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a> <span style="display:none">SUCCESS</span>
                                                                     </td>
                                                                 </tr>
                                                                 <tr class="scenario-result SUCCESS">
                                                                     <td>
-                                                                            <a href="#">Buying and selling shares</a>
+                                                                            <a href="77205032b72f461eabdea285f649e7e0432449dde8042e2cbe7cdb210271de7f.html">Buying and selling shares</a>
                                                                     </td>
                                                                     <td>
-                                                                                <a href="142c31db5aa5b8d48adcfd3c457bcad99cedd01fdc301ca8b04e99d636925323.html">Buying and selling shares</a>
+                                                                            <a href="142c31db5aa5b8d48adcfd3c457bcad99cedd01fdc301ca8b04e99d636925323.html">Buying and selling shares</a>
                                                                     </td>
                                                                     <td><span style="display:none"></span>
                                                                     </td>
                                                                     <td>4</td>
-                                                                    <td>16:31:44</td>
-                                                                    <td>2s 863ms</td>
+                                                                    <td>19:49:39</td>
+                                                                    <td>3s 829ms</td>
                                                                     <td><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a> <span style="display:none">SUCCESS</span>
                                                                     </td>
                                                                 </tr>
                                                                 <tr class="scenario-result SUCCESS">
                                                                     <td>
-                                                                            <a href="#">Buying and selling shares</a>
+                                                                            <a href="77205032b72f461eabdea285f649e7e0432449dde8042e2cbe7cdb210271de7f.html">Buying and selling shares</a>
                                                                     </td>
                                                                     <td>
-                                                                                <a href="f3c541efb4ce0bc3695bcd38c95efaeabdf0d689dbdf0ee864eb8b0881a0bbd6.html">Buying shares</a>
+                                                                            <a href="f3c541efb4ce0bc3695bcd38c95efaeabdf0d689dbdf0ee864eb8b0881a0bbd6.html">Buying shares</a>
                                                                     </td>
                                                                     <td><span style="display:none"></span>
                                                                     </td>
                                                                     <td>3</td>
-                                                                    <td>16:31:47</td>
-                                                                    <td>627ms</td>
+                                                                    <td>19:49:42</td>
+                                                                    <td>313ms</td>
                                                                     <td><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a> <span style="display:none">SUCCESS</span>
                                                                     </td>
                                                                 </tr>
                                                                 <tr class="scenario-result SUCCESS">
                                                                     <td>
-                                                                            <a href="#">Viewing positions</a>
+                                                                            <a href="47a487c2c833176535373df4a774fcd80c5f78ec3254d6d8c2f5c58fe69a056e.html">Viewing positions</a>
                                                                     </td>
                                                                     <td>
-                                                                                <a href="6a8ac973147177a473213803ab739b9766040ed494d35dd0e7b43ca02378803a.html">Making a profit on a single share</a>
+                                                                            <a href="6a8ac973147177a473213803ab739b9766040ed494d35dd0e7b43ca02378803a.html">Making a profit on a single share</a>
                                                                     </td>
                                                                     <td><span style="display:none"></span>
                                                                     </td>
                                                                     <td>4</td>
-                                                                    <td>16:31:47</td>
-                                                                    <td>698ms</td>
+                                                                    <td>19:49:39</td>
+                                                                    <td>3s 770ms</td>
                                                                     <td><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a> <span style="display:none">SUCCESS</span>
                                                                     </td>
                                                                 </tr>
                                                                 <tr class="scenario-result SUCCESS">
                                                                     <td>
-                                                                            <a href="#">Market news</a>
+                                                                            <a href="0f4341d7c9aa059a5b316c31222c4062466c367ce9255f4cc449cde332b678f6.html">Market news</a>
                                                                     </td>
                                                                     <td>
-                                                                                <a href="13c0e224b037386da1a4ca60911a7a8c5811e6579a478042d999edb0c29f318f.html">Viewing news about a particular share</a>
+                                                                            <a href="13c0e224b037386da1a4ca60911a7a8c5811e6579a478042d999edb0c29f318f.html">Viewing news about a particular share</a>
                                                                     </td>
                                                                     <td><span style="display:none"></span>
                                                                     </td>
                                                                     <td>3</td>
-                                                                    <td>16:31:42</td>
-                                                                    <td>5s 575ms</td>
+                                                                    <td>19:49:39</td>
+                                                                    <td>3s 517ms</td>
                                                                     <td><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a> <span style="display:none">SUCCESS</span>
                                                                     </td>
                                                                 </tr>
@@ -611,7 +617,7 @@ It is made up of two layers:</p>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12">
-                    <span class="version">Serenity BDD version 4.0.1</span>
+                    <span class="version">Serenity BDD version 4.1.20</span>
                 </div>
             </div>
         </div>
@@ -914,7 +920,7 @@ It is made up of two layers:</p>
             datasets: [{
                 label: 'Number of tests per duration',
                 fill: false,
-                data: ['4','4','0','0','0','0','0','0'],
+                data: ['3','5','0','0','0','0','0','0'],
                 backgroundColor: 'rgba(83, 146, 255,0.5)',
                 borderColor: 'rgba(83, 146, 255, 1)',
             }]
