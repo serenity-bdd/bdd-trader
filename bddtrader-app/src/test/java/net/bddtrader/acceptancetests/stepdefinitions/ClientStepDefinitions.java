@@ -62,8 +62,7 @@ public class ClientStepDefinitions {
         Client registeredClient = tim.recall("registeredClient");
 
         tim.should(
-                seeThat(ThePortfolio.cashBalanceFor(registeredClient),
-                        is(equalTo(expectedBalance)))
+                seeThat(ThePortfolio.cashBalanceFor(registeredClient), is(equalTo(expectedBalance)))
         );
     }
 }

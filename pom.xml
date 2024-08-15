@@ -16,15 +16,15 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit5.version>5.9.3</junit5.version>
-        <junit-platform-suite-api.version>1.9.3</junit-platform-suite-api.version>
+        <junit5.version>5.10.3</junit5.version>
+        <junit-platform-suite-api.version>1.10.3</junit-platform-suite-api.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.24.2</version>
+            <version>3.26.3</version>
             <scope>test</scope>
         </dependency>
 
